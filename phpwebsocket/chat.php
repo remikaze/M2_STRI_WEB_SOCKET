@@ -19,11 +19,13 @@ class ChatBot extends WebSocket{
 	}
 
 	
-	echo "JSON TO ARRAY";
-	$res = (array) json_decode($msg, true);
+	echo "JSON TO ARRAY\n";
+
+	$res = json_decode($msg, true);
 	print_r($res);
-	echo $res[commande];
-	echo $res[data];
+	echo $res['commande']."\n";
+	echo $res['data']."\n";
+
 
   }
 }
