@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<title>Sport en plein air</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+<body>
+<!-- Titre principal de la page -->
+<h1 align="center"> Bienvenue sur sport en plein air </h1>
+
+<!-- Début des information sur l'utilisateur -->
+<h2> Information sur l'utilisateur </h2>
+<table>
+<tr>
+<td>
+  Nom : 
+</td>
+<td>
+< nom et prenom >
+</td>
+</tr>
+<tr>
+<td>
+  Position : 
+</td>
+<td>
+< latitude et longitude >
+</td>
+</tr>
+<tr>
+<td>
+  Status : 
+</td>
+<td>
+< Connecté ou non >
+</td>
+</tr>
+</table>
+<!-- Fin des messages sur l'utilisateur -->
+
+<div width="100%">
+<!-- Partie gauche de la page : mes créneaux -->
+<span width="50%" min-width="100px" >
+<h2>Mes dates de sport en plein air</h2> 
+</span>
+<!-- Fin partie gauche de la page : mes créneaux -->
+
+
+<!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
+<span width="50%" min-width="100px" >
+<h2>Les dates de sport en plein air des autres menbres</h2> 
+</span>
+<!-- Fin partie droite de la page : les créneaux des autres présents dans ma zone -->
+</div>
+
+<div class="wrap">
+
+  
+
+    <p id="readyState">readyState : <span id="rs">&nbsp;</span></p>
+
+    <p><strong>Journal des échanges</strong></p>
+    <div name="log" id="log"></div>
+  
+  <form>
+    <p>
+      <label for="texte">Envoyer</label>
+      <input type="text" name="texte" id="texte">
+      <input type="submit" value="OK" id="valid">
+    </p>
+  
+  </form>
+
+</div>
+
+
+<script>
+
+var ws = null;
+
+//  Création d'un nouveau socket
+// (Pour Mozilla < 11 avec version préfixée)
+if('MozWebSocket' in window) {
+
+  ws = new MozWebSocket("ws://192.168.1.200:1337/phpwebsocket/bot.php");
+
+} else if('WebSocket' in window) {
+
+  ws = new WebSocket("ws://192.168.1.200:1337/phpwebsocket/bot.php");
+
+}
+
+if(typeof ws !=='undefined') {
+
+  // Indication de l'état
+  var rs = document.getElementById('rs');
+
+  // Lors de l'ouverture de connexion
+  ws.onopen = function() {
+    log("Socket ouvert");
+    rs.innerHTML = this.readyState;
+  };
+  
+  // Lors de la réception d'un message
+  ws.onmessage = function(e) {
+    // Ajout au journal du contenu du message
+    log("< "+e.data);
+    rs.innerHTML = this.readyState;
+  };
+
+  // Lors d'une erreur de connexion
+  ws.onerror = function(e) {  
+    log("Erreur de connexion");
+    rs.innerHTML = this.readyState;
+  };
+
+  // Lors de la fermeture de connexion
+  ws.onclose = function(e) {  
+    if(e.wasClean) {
+      log("Socket fermé proprement");
+    } else {
+      log("Socket fermé");
+      if(e.reason) log(e.reason);
+    }
+    rs.innerHTML = this.readyState;
+  };
+
+  // Evénement submit du formulaire
+  document.getElementsByTagName('form')[0].onsubmit = function(e) {
+    var texte = document.getElementById('texte');
+    
+    // Envoi de la chaîne texte
+    ws.send(texte.value);
+    log("> "+texte.value);
+    
+    // Mise à zéro du champ et focus
+    texte.focus();
+    texte.value = '';
+    
+    // Empêche de valider le formulaire
+    e.preventDefault();
+  };
+  
+} else {
+
+  alert("Ce navigateur ne supporte pas Web Sockets");
+
+}
+
+// Fonction d’ajout au journal
+function log(txt) {
+  document.getElementById('log').innerHTML += txt + "<br>\n";
+}
+
+</script>
+
+</body>
+</html>
