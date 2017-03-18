@@ -16,24 +16,22 @@
 <td>
   Nom : 
 </td>
-<td>
-< nom et prenom >
+<td id="prenom_nom">
+
 </td>
 </tr>
 <tr>
 <td>
   Position : 
 </td>
-<td>
-< latitude et longitude >
+<td id="position_utilisateur">
 </td>
 </tr>
 <tr>
 <td>
   Status : 
 </td>
-<td>
-< Connecté ou non >
+<td id="rs">
 </td>
 </tr>
 </table>
@@ -83,11 +81,11 @@ var ws = null;
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.1.200:1337/phpwebsocket/bot.php");
+  ws = new MozWebSocket("ws://192.168.0.49:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.1.200:1337/phpwebsocket/bot.php");
+  ws = new WebSocket("ws://192.168.0.49:1337/phpwebsocket/chat.php");
 
 }
 
@@ -96,10 +94,45 @@ if(typeof ws !=='undefined') {
   // Indication de l'état
   var rs = document.getElementById('rs');
 
+  // Initialisation d'un utilisateur
+  function initSession(){
+    var envoi={};
+    envoi.commande="CONNECT";
+    var personne={};
+    personne.id=1;
+    personne.nom="DEGIRONDE";
+    personne.prenom="ROBIN";
+    personne.longitude="1.00000001";
+    personne.latitude="1.00000001";
+
+    envoi.data=JSON.stringify(personne);
+
+    var json= JSON.stringify(envoi);
+
+    // Envoi des variables de connexion
+    ws.send(json);
+    log("> "+json);
+    
+    // Mise à zéro du champ et focus
+    texte.focus();
+    texte.value = '';
+
+    // On rempli les champs associés
+    document.getElementById('prenom_nom').innerHTML = personne.prenom + " " + personne.nom;
+    document.getElementById('position_utilisateur').innerHTML = "longitude : " + personne.longitude + " et latitude : " + personne.latitude;
+
+  }
+
+
   // Lors de l'ouverture de connexion
   ws.onopen = function() {
     log("Socket ouvert");
     rs.innerHTML = this.readyState;
+
+    // On initialise l'utilisateur
+    initSession();
+
+    
   };
   
   // Lors de la réception d'un message
