@@ -37,6 +37,7 @@
 
 var ws = null;
 
+
 //  Création d'un nouveau socket
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
@@ -58,6 +59,20 @@ if(typeof ws !=='undefined') {
   ws.onopen = function() {
     log("Socket ouvert");
     rs.innerHTML = this.readyState;
+
+    var envoi={};
+    envoi.commande="CONNECT";
+    envoi.data="TEST";
+    var json= JSON.stringify(envoi);
+
+    // Envoi des variables de connexion
+    ws.send(json);
+    log("> "+json);
+    
+    // Mise à zéro du champ et focus
+    texte.focus();
+    texte.value = ''
+
   };
   
   // Lors de la réception d'un message
