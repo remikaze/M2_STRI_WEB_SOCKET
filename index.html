@@ -55,14 +55,19 @@ if(typeof ws !=='undefined') {
   // Indication de l'état
   var rs = document.getElementById('rs');
 
-  // Lors de l'ouverture de connexion
-  ws.onopen = function() {
-    log("Socket ouvert");
-    rs.innerHTML = this.readyState;
 
+  function initSession(){
     var envoi={};
     envoi.commande="CONNECT";
-    envoi.data="TEST";
+    var personne={};
+    personne.id=1;
+    personne.nom="DEGIRONDE";
+    personne.prenom="ROBIN";
+    personne.longitude="1.00000001";
+    personne.latitude="1.00000001";
+
+    envoi.data=JSON.stringify(personne);
+
     var json= JSON.stringify(envoi);
 
     // Envoi des variables de connexion
@@ -71,7 +76,15 @@ if(typeof ws !=='undefined') {
     
     // Mise à zéro du champ et focus
     texte.focus();
-    texte.value = ''
+    texte.value = '';
+  }
+  
+  // Lors de l'ouverture de connexion
+  ws.onopen = function() {
+    log("Socket ouvert");
+    rs.innerHTML = this.readyState;
+
+    initSession();
 
   };
   

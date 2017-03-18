@@ -6,7 +6,7 @@ class Utilisateur{
 	var $longitude;
 	var $latitude;
 
-	public function _construct ($pId, $pNom, $pPrenom, $pLongitude, $pLatitude)
+	public function __construct ($pId, $pNom, $pPrenom, $pLongitude, $pLatitude)
 	{
 		$this->id=$pId;
 		$this->nom=$pNom;
@@ -18,6 +18,11 @@ class Utilisateur{
 	public function getJson()
 	{
 		return json_encode(get_object_vars($this));
+	}
+
+	public function toString()
+	{
+		return $this->id.' '.$this->nom.' '.$this->prenom.' '.$this->longitude.' '.$this->latitude."\n";
 	}
 }
 ?>

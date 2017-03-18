@@ -4,7 +4,7 @@
 require "websocket.class.php";
 require "utilisateur.php";
 
-$listeUtilisateurs=array_map();
+$listeUtilisateurs=array();
 
 
 
@@ -21,12 +21,14 @@ class ChatBot extends WebSocket{
 	
 	echo "JSON TO ARRAY\n";
 
+	//Decode le message entier et recupere la commande
 	$res = json_decode($msg, true);
-	print_r($res);
 	echo $res['commande']."\n";
-	echo $res['data']."\n";
 
-
+	//decode la data qui est un json de personne
+	$personne= json_decode($res['data'], true);
+	$util= new Utilisateur($user->id, $personne['nom'], $personne['prenom'], $personne['longitude'], $personne['latitude']);
+	echo $util->toString();
   }
 }
 $master = new ChatBot("localhost",1337);
