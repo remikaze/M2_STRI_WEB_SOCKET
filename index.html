@@ -41,8 +41,22 @@
 <!-- Partie gauche de la page : mes créneaux -->
 <span width="50%" min-width="100px" >
 <h2>Mes dates de sport en plein air</h2> 
+<!-- Début ajout d'une nouvelle date -->
+<form>
+  <p>
+    <label for="texte">Jour</label>
+    <input type="text" name="texteFormulaireJour" id="texteFormulaireJour">
+    <label for="texte">Sport</label>
+    <input type="text" name="texteFormulaireSport" id="texteFormulaireSport">
+    <input type="submit" value="Add date" id="validAddSport">
+  </p>
+</form>
+
+<!-- Fin ajout d'une nouvelle date -->
+
 </span>
 <!-- Fin partie gauche de la page : mes créneaux -->
+
 
 
 <!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
@@ -81,11 +95,10 @@ var ws = null;
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.0.49:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.0.49:1337/phpwebsocket/chat.php");
+  ws = new WebSocket("ws://192.168.48.129:1337/phpwebsocket/chat.php");
 
 }
 
@@ -160,7 +173,7 @@ if(typeof ws !=='undefined') {
   };
 
   // Evénement submit du formulaire
-  document.getElementsByTagName('form')[0].onsubmit = function(e) {
+  document.getElementsByTagName('form')[1].onsubmit = function(e) {
     var texte = document.getElementById('texte');
     
     // Envoi de la chaîne texte
@@ -174,6 +187,40 @@ if(typeof ws !=='undefined') {
     // Empêche de valider le formulaire
     e.preventDefault();
   };
+
+  document.getElementsByTagName('form')[0].onsubmit = function(e) {
+    var texteFormulaireJour = document.getElementById('texteFormulaireJour');
+    var texteFormulaireSport = document.getElementById('texteFormulaireSport');
+    
+    // Envoi de la chaîne texte
+    var envoi={};
+    envoi.commande="ADDCRENEAU";
+    var mesSport = {} ; // TODO : mettre le tableau complet
+    // TODO : a finir 
+
+
+    envoi.data=JSON.stringify(mesSport);
+        var json= JSON.stringify(envoi);
+
+
+
+    // Envoi des variables de connexion
+    ws.send(json);
+    log("> "+json);
+    
+    // Mise à zéro du champ et focus
+    texte.focus();
+    texte.value = '';
+    
+    // Empêche de valider le formulaire
+    e.preventDefault();
+  };
+
+  document.getElementsByTagName()
+
+
+
+
   
 } else {
 
