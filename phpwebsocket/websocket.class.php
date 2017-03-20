@@ -1,14 +1,23 @@
 <?php  
 
 // Usage: $master=new WebSocket("localhost",12345);
+require "utilisateur.php";
 
 class WebSocket{
   var $master;
   var $sockets = array();
   var $users   = array();
   var $debug   = true;
+
+  //Init base
+  var $listeUtilisateurs=array();
   
   function __construct($address,$port){
+      //INIT BASE
+      $this->listeUtilisateurs['robin.degironde@gmail.com']= new Utilisateur('robin.degironde@gmail.com', 'DEGIRONDE', 'ROBIN', '1.00000001', '1.000000001', 'mdp', 'X');
+      $this->listeUtilisateurs['charles.banquet@live.com']= new Utilisateur('charles.banquet@live.com', 'BANQUET', 'CHARLES', '1.00000001', '1.00000001', 'mdp', 'X');
+      $this->listeUtilisateurs['remi.barbaste@gmail.com']= new Utilisateur('remi.barbaste@gmail.com', 'BARBASTE', 'REMI', '1.00000001', '1.00000001', 'mdp', 'X');
+  
     error_reporting(E_ALL);
     set_time_limit(0);
     ob_implicit_flush();
@@ -46,6 +55,7 @@ class WebSocket{
         }
       }
     }
+
   }
 
   function process($user,$msg){
