@@ -42,11 +42,11 @@ var ws = null;
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.0.49:1337/phpwebsocket/bot.php");
+  ws = new MozWebSocket("ws://localhost:1337/phpwebsocket/bot.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.0.49:1337/phpwebsocket/bot.php");
+  ws = new WebSocket("ws://localhost:1337/phpwebsocket/bot.php");
 
 }
 
@@ -60,11 +60,12 @@ if(typeof ws !=='undefined') {
     var envoi={};
     envoi.commande="CONNECT";
     var personne={};
-    personne.id=1;
+    personne.id="robin.degironde@gmail.com";
     personne.nom="DEGIRONDE";
     personne.prenom="ROBIN";
     personne.longitude="1.00000001";
     personne.latitude="1.00000001";
+    personne.mdp="mdp";
 
     envoi.data=JSON.stringify(personne);
 
