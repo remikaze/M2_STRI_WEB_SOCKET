@@ -9,18 +9,34 @@ class ChatBot extends WebSocket{
 
   function process($user,$msg){
  
+ 	//ECHO
     $this->say("< ".$user->socket." :".$msg);
- 
- 	foreach ( $this->users as $utilisateur ){
-		$this->send($utilisateur->socket,$msg);
-	}
+    $this->send($user->socket,$msg);
+
+	// //Envoyer a tous les utilisateurs 	
+ // 	foreach ( $this->users as $utilisateur ){
+	// 	$this->send($utilisateur->socket,$msg);
+	// }
 
 	
 	echo "JSON TO ARRAY\n";
-
 	//Decode le message entier et recupere la commande
 	$res = json_decode($msg, true);
 	echo $res['commande']."\n";
+
+	//DECODE DATA
+	$personne = json_decode($res['data'], true);
+	// echo $personne['id']."\n";
+
+	switch ($res['commande']) {
+		case 'CONNECT':
+			$this->listeUtilisateurs[$personne['id']]->setIdSocket($user->id);
+			break;
+		
+		default:
+			echo "COMMANDE INCONNUE";
+			break;
+	}
 
 	//decode la data qui est un json de personne
 	$personne= json_decode($res['data'], true);
