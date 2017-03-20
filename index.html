@@ -95,6 +95,7 @@ var ws = null;
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
+  ws = new MozWebSocket("ws://192.168.48.129:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
