@@ -1,52 +1,113 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<title>HTML5 : Web Sockets</title>
+<title>Sport en plein air</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <body>
+<!-- Titre principal de la page -->
+<h1 align="center"> Bienvenue sur sport en plein air </h1>
+
+<!-- Début des information sur l'utilisateur -->
+<h2> Information sur l'utilisateur </h2>
+<table>
+<tr>
+<td>
+  Nom : 
+</td>
+<td id="prenom_nom">
+
+</td>
+</tr>
+<tr>
+<td>
+  Position : 
+</td>
+<td id="position_utilisateur">
+</td>
+</tr>
+<tr>
+<td>
+  Status : 
+</td>
+<td id="rs">
+</td>
+</tr>
+</table>
+<!-- Fin des messages sur l'utilisateur -->
+
+<!-- <div width="100%"> -->
+<!-- Partie gauche de la page : mes créneaux -->
+<span width="50%" min-width="100px" >
+<h2>Mes dates de sport en plein air</h2> 
+<!-- Début ajout d'une nouvelle date -->
+<form>
+  <p>
+    <label for="texte">Jour</label>
+    <input type="text" name="texteFormulaireJour" id="texteFormulaireJour">
+    <label for="texte">Sport</label>
+    <input type="text" name="texteFormulaireSport" id="texteFormulaireSport">
+    <input type="submit" value="Add date" id="validAddSport">
+  </p>
+</form>
+
+<span style="display:block; text-align:left; border:solid 1px black; width: 500px;
+          background-color:red; font-weight:bold; font-size:16px;">
+Date : <br/>
+Sport : <br/>
+Nbre de personnes : <br/>
+    <input type="submit" value="Participer" id="validAddSport">
+</span> 
+
+<!-- Fin ajout d'une nouvelle date -->
+
+</span>
+<!-- Fin partie gauche de la page : mes créneaux -->
+
+
+
+<!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
+<span width="50%" min-width="100px">
+<h2>Les dates de sport en plein air des autres menbres</h2> 
+</span>
+<!-- Fin partie droite de la page : les créneaux des autres présents dans ma zone -->
+<!-- </div> -->
 
 <div class="wrap">
 
-  <form>
+  
 
     <p id="readyState">readyState : <span id="rs">&nbsp;</span></p>
 
-    <p><strong>Journal</strong></p>
+    <p><strong>Journal des échanges</strong></p>
     <div name="log" id="log"></div>
   
+  <form>
     <p>
       <label for="texte">Envoyer</label>
       <input type="text" name="texte" id="texte">
       <input type="submit" value="OK" id="valid">
     </p>
   
-    <p><strong>Commandes</strong></p>
-    <ul>
-      <li><kbd>hello</kbd> : saluer</li>
-      <li><kbd>date</kbd> : demander la date</li>
-      <li><kbd>bye</kbd> ou <kbd>ciao</kbd> : quitter</li>
-    </ul>
-  
   </form>
 
 </div>
+
 
 <script>
 
 var ws = null;
 
-
 //  Création d'un nouveau socket
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://localhost:1337/phpwebsocket/bot.php");
+  ws = new MozWebSocket("ws://192.168.48.129:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://localhost:1337/phpwebsocket/bot.php");
+  ws = new WebSocket("ws://192.168.48.129:1337/phpwebsocket/chat.php");
 
 }
 
@@ -55,14 +116,14 @@ if(typeof ws !=='undefined') {
   // Indication de l'état
   var rs = document.getElementById('rs');
 
-
+  // Initialisation d'un utilisateur
   function initSession(){
     var envoi={};
     envoi.commande="CONNECT";
     var personne={};
-    personne.id="remi.barbaste@gmail.com";
-    personne.nom="BARBASTE";
-    personne.prenom="REMI";
+    personne.id="robin.degironde@gmail.com";
+    personne.nom="DEGIRONDE";
+    personne.prenom="ROBIN";
     personne.longitude="1.00000001";
     personne.latitude="1.00000001";
     personne.mdp="mdp";
@@ -78,15 +139,23 @@ if(typeof ws !=='undefined') {
     // Mise à zéro du champ et focus
     texte.focus();
     texte.value = '';
+
+    // On rempli les champs associés
+    document.getElementById('prenom_nom').innerHTML = personne.prenom + " " + personne.nom;
+    document.getElementById('position_utilisateur').innerHTML = "longitude : " + personne.longitude + " et latitude : " + personne.latitude;
+
   }
-  
+
+
   // Lors de l'ouverture de connexion
   ws.onopen = function() {
     log("Socket ouvert");
     rs.innerHTML = this.readyState;
 
+    // On initialise l'utilisateur
     initSession();
 
+    
   };
   
   // Lors de la réception d'un message
@@ -114,7 +183,7 @@ if(typeof ws !=='undefined') {
   };
 
   // Evénement submit du formulaire
-  document.getElementsByTagName('form')[0].onsubmit = function(e) {
+  document.getElementsByTagName('form')[1].onsubmit = function(e) {
     var texte = document.getElementById('texte');
     
     // Envoi de la chaîne texte
@@ -128,6 +197,40 @@ if(typeof ws !=='undefined') {
     // Empêche de valider le formulaire
     e.preventDefault();
   };
+
+  document.getElementsByTagName('form')[0].onsubmit = function(e) {
+    var texteFormulaireJour = document.getElementById('texteFormulaireJour');
+    var texteFormulaireSport = document.getElementById('texteFormulaireSport');
+    
+    // Envoi de la chaîne texte
+    var envoi={};
+    envoi.commande="ADDCRENEAU";
+    var mesSport = {} ; // TODO : mettre le tableau complet
+    // TODO : a finir 
+
+
+    envoi.data=JSON.stringify(mesSport);
+        var json= JSON.stringify(envoi);
+
+
+
+    // Envoi des variables de connexion
+    ws.send(json);
+    log("> "+json);
+    
+    // Mise à zéro du champ et focus
+    texte.focus();
+    texte.value = '';
+    
+    // Empêche de valider le formulaire
+    e.preventDefault();
+  };
+
+  document.getElementsByTagName()
+
+
+
+
   
 } else {
 
