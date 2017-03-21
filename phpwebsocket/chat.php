@@ -35,6 +35,39 @@ class ChatBot extends WebSocket{
 			$this->listeUtilisateurs[$personne['id']]->setLongitude($personne['longitude']);
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
+
+
+
+
+
+			//VOIR SI LUTILISATEUR EST PRES
+			foreach ( $this->listeUtilisateurs as $utilisateur){
+		
+			//PREVENIR L'UTILISATEUR
+			if($utilisateur->getId() != $personne['id'])
+			{
+				if($this->listeUtilisateurs[$personne['id']]->estPres($utilisateur))
+				{
+					//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
+					$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
+					echo $retour;
+
+					$this->say("< ".$user->socket." :".$msg);
+		 			$this->send($user->socket,$retour);
+
+
+		 			//MESSAGE A L AUTRE UTILISATEUR
+					$retour= $this->listeUtilisateurs[$personne['id']]->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
+					echo $retour;
+
+
+					$this->say("< ".$utilisateur->socket." :".$msg);
+		 			$this->send($utilisateur->socket,$retour);
+
+				}
+			}
+		
+	}
 			break;
 		
 		default:
@@ -42,33 +75,7 @@ class ChatBot extends WebSocket{
 			break;
 	}
 
-	foreach ( $this->listeUtilisateurs as $utilisateur){
-		
-		//PREVENIR L'UTILISATEUR
-		if($utilisateur->getId() != $personne['id'])
-		{
-			if($this->listeUtilisateurs[$personne['id']]->estPres($utilisateur))
-			{
-				//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
-				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
-				echo $retour;
-
-				$this->say("< ".$user->socket." :".$msg);
-	 			$this->send($user->socket,$retour);
-
-
-	 			//MESSAGE A L AUTRE UTILISATEUR
-				$retour= $this->listeUtilisateurs[$personne['id']]->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
-				echo $retour;
-
-
-				$this->say("< ".$utilisateur->socket." :".$msg);
-	 			$this->send($utilisateur->socket,$retour);
-
-			}
-		}
-		
-	}
+	
 
 
 

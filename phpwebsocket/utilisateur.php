@@ -141,5 +141,6 @@ class Utilisateur{
 		}
 		return $retour;
 	}
+
 }
 ?>
