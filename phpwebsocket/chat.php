@@ -46,12 +46,13 @@ class ChatBot extends WebSocket{
 	}
 
 	//VERIF SI L UTILISATEUR EST PRES
-	// if($this->listeUtilisateurs['robin.degironde@gmail.com']->estPres($this->listeUtilisateurs['charles.banquet@live.fr'])
-	// {
-	// 	echo "OK: "
-	// }
 	echo "TEST DISTANCE: ".$this->listeUtilisateurs['robin.degironde@gmail.com']->distance($this->listeUtilisateurs['charles.banquet@live.com'])." \n";
 
+	if($this->listeUtilisateurs['robin.degironde@gmail.com']->estPres($this->listeUtilisateurs['charles.banquet@live.com']))
+		echo "CHARLES EST PRES DE ROBIN";
+	else
+		echo "CHARLES N'EST PAS PRES DE ROBIN";
+	
 	}
 }
 $master = new ChatBot("localhost",1337);
