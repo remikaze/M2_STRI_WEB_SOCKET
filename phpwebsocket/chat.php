@@ -41,13 +41,17 @@ class ChatBot extends WebSocket{
 			break;
 	}
 
-	// echo $this->listeUtilisateurs['robin.degironde@gmail.com']->toString();
-	// $this->listeUtilisateurs['robin.degironde@gmail.com']->setIdSocket($user->id);
-	// echo $this->listeUtilisateurs['robin.degironde@gmail.com']->toString();
-
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();		
 	}
+
+	//VERIF SI L UTILISATEUR EST PRES
+	// if($this->listeUtilisateurs['robin.degironde@gmail.com']->estPres($this->listeUtilisateurs['charles.banquet@live.fr'])
+	// {
+	// 	echo "OK: "
+	// }
+	echo "TEST DISTANCE: ".$this->listeUtilisateurs['robin.degironde@gmail.com']->distance($this->listeUtilisateurs['charles.banquet@live.com'])." \n";
+
 	}
 }
 $master = new ChatBot("localhost",1337);
