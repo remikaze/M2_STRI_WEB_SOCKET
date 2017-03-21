@@ -25,6 +25,31 @@ class Utilisateur{
 		return json_encode(get_object_vars($this));
 	}
 
+	public function getLongitude()
+	{
+		return $this->longitude;
+	}
+
+	public function getLatitude()
+	{
+		return $this->latitude;
+	}
+
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function getNom()
+	{
+		return $this->nom;
+	}
+
+	public function getPrenom()
+	{
+		return $this->prenom;	
+	}
+
 	public function setIdSocket($pIdSocket)
 	{
 		$this->idSocket=$pIdSocket;
@@ -38,16 +63,6 @@ class Utilisateur{
 	public function setLatitude ($pLatitude)
 	{
 		$this->latitude=$pLatitude;
-	}
-
-	public function getLongitude()
-	{
-		return $this->longitude;
-	}
-
-	public function getLatitude()
-	{
-		return $this->latitude;
 	}
 
 	public function toString()

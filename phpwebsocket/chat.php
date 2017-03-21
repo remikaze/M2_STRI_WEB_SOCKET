@@ -41,18 +41,45 @@ class ChatBot extends WebSocket{
 			break;
 	}
 
+
+	// if($this->listeUtilisateurs['robin.degironde@gmail.com']->estPres($this->listeUtilisateurs['charles.banquet@live.com']))
+	// 	echo "CHARLES EST PRES DE ROBIN";
+	// else
+	// 	echo "CHARLES N'EST PAS PRES DE ROBIN";
+	
+	// }
+
+	foreach ( $this->listeUtilisateurs as $utilisateur){
+		
+		//PREVENIR L'UTILISATEUR
+		if($utilisateur->getId() != $personne['id'])
+		{
+			if($this->listeUtilisateurs[$personne['id']]->estPres($utilisateur))
+			{
+				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
+				echo $retour;
+
+				$this->say("< ".$user->socket." :".$msg);
+	 			$this->send($user->socket,$retour);
+			}
+		}
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();		
 	}
 
-	//VERIF SI L UTILISATEUR EST PRES
-	echo "TEST DISTANCE: ".$this->listeUtilisateurs['robin.degironde@gmail.com']->distance($this->listeUtilisateurs['charles.banquet@live.com'])." \n";
-
-	if($this->listeUtilisateurs['robin.degironde@gmail.com']->estPres($this->listeUtilisateurs['charles.banquet@live.com']))
-		echo "CHARLES EST PRES DE ROBIN";
-	else
-		echo "CHARLES N'EST PAS PRES DE ROBIN";
-	
 	}
 }
 $master = new ChatBot("localhost",1337);
