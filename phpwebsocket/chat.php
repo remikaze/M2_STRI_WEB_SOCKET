@@ -117,3 +117,4 @@ class ChatBot extends WebSocket{
 
 	}
 }
+$master = new ChatBot("0.0.0.0",1337);
