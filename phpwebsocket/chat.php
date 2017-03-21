@@ -7,6 +7,16 @@ require "websocket.class.php";
 // Extended basic WebSocket as ChatBot
 class ChatBot extends WebSocket{
 
+	function getUtilisateurByUserId($pUserId)
+	{
+		foreach ( $this->listeUtilisateurs as $utilisateur ){
+			if($utilisateur->idSocket == $pUserId)
+			{
+				return $utilisateur;
+			}
+		}
+	}
+
   function process($user,$msg){
  
  	//ECHO
@@ -30,44 +40,11 @@ class ChatBot extends WebSocket{
 
 	switch ($commande) {
 		case "CONNECT":
-			echo "$commande\n";
 			$this->listeUtilisateurs[$personne['id']]->setIdSocket($user->id);
 			$this->listeUtilisateurs[$personne['id']]->setLongitude($personne['longitude']);
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
 
-
-
-
-
-			//VOIR SI LUTILISATEUR EST PRES
-			foreach ( $this->listeUtilisateurs as $utilisateur){
-		
-			//PREVENIR L'UTILISATEUR
-			if($utilisateur->getId() != $personne['id'])
-			{
-				if($this->listeUtilisateurs[$personne['id']]->estPres($utilisateur))
-				{
-					//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
-					$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
-					echo $retour;
-
-					$this->say("< ".$user->socket." :".$msg);
-		 			$this->send($user->socket,$retour);
-
-
-		 			//MESSAGE A L AUTRE UTILISATEUR
-					$retour= $this->listeUtilisateurs[$personne['id']]->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
-					echo $retour;
-
-
-					$this->say("< ".$utilisateur->socket." :".$msg);
-		 			$this->send($utilisateur->socket,$retour);
-
-				}
-			}
-		
-	}
 			break;
 		
 		default:
@@ -75,8 +52,54 @@ class ChatBot extends WebSocket{
 			break;
 	}
 
-	
 
+	//Retrouver qui a initialise la fonction
+	$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
+
+	//VOIR SI LUTILISATEUR EST PRES
+	foreach ( $this->listeUtilisateurs as $utilisateur){
+		//PREVENIR L'UTILISATEUR
+		if($utilisateur->getId() != $utilisateurSocket->id)
+		{
+			if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
+			{
+				//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
+				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n";
+				echo $retour;
+
+				$this->say("< ".$user->socket." :".$msg);
+	 			$this->send($user->socket,$retour);
+
+	 			//MESSAGE A L AUTRE UTILISATEUR
+				$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n";
+				echo $retour;
+
+				$this->say("< ".$utilisateur->socket." :".$msg);
+	 			$this->send($utilisateur->socket,$retour);
+			}
+		}
+	}
+
+	//VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
+	foreach ( $this->listeUtilisateurs as $vUtilisateur){
+		//VERIF QUE CE NEST PAS LE MEME USER
+		if($vUtilisateur->getId() != $utilisateurSocket->id)
+		{
+			//PARCOURIR TOUS LES SPORTS DE utilisateurSocket
+			foreach (array_keys($utilisateurSocket->sports) as $vSport) {
+				//REGARDER SI, AU MOINS vUtilisateur pratique le même sport que utilisateurSocket
+				if(array_key_exists($vSport, $vUtilisateur->sports)){
+					$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
+					foreach ($intersect as $vDate) {
+						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
+						$this->say("< ".$user->socket." :".$retour);
+	 					$this->send($user->socket,$retour);
+					}
+				}
+			}
+
+		}
+	}
 
 
 
