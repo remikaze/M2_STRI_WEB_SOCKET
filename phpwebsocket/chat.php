@@ -81,7 +81,8 @@ class ChatBot extends WebSocket{
 
 
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
-		echo $utilisateur->toString();		
+		echo $utilisateur->toString();
+		echo $utilisateur->sportsToString();
 	}
 
 	}

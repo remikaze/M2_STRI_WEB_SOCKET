@@ -9,6 +9,7 @@ class Utilisateur{
 	var $mdp;
 	var $idSocket;
 	var $socket;
+	var $sports;
 
 	public function __construct ($pId, $pNom, $pPrenom, $pLongitude, $pLatitude, $pMdp, $pIdSocket)
 	{
@@ -19,6 +20,7 @@ class Utilisateur{
 		$this->latitude=$pLatitude;
 		$this->idSocket=$pIdSocket;
 		$this->mdp=$pMdp;
+		$this->sports=array();
 	}
 
 	public function getJson()
@@ -114,6 +116,30 @@ class Utilisateur{
 	{
 		$critere= 80;
 		return($this->distance($pUtilisateur) <= $critere);
+	}
+
+	public function addSport($pSport, $pDate)
+	{
+		if(!array_key_exists($pSport, $this->sports))
+		{
+			$this->sports[$pSport]= array();
+		}
+
+		array_push($this->sports[$pSport], $pDate);
+	}
+
+	public function sportsToString()
+	{
+		$retour="";
+		foreach ( array_keys($this->sports) as $nomSport ){
+			$retour=$retour.$nomSport."\n";
+			
+			foreach ( $this->sports[$nomSport] as $date ){
+				$retour=$retour.' '.$date;
+			}
+			$retour=$retour."\n";
+		}
+		return $retour;
 	}
 }
 ?>
