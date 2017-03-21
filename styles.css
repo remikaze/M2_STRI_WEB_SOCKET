@@ -65,3 +65,24 @@ ul {
   color:#fff;
   padding:0.1em 0.5em;
 }
+
+
+
+
+/*Ajour new pages*/
+
+#dateGauche {
+  width: 50%;
+  min-width: 200px;
+  height: 100%;
+  float: left;
+  background-color: red;
+}
+
+#dateDroite {
+  width: 50%;
+  min-width: 200px;
+  height: 100%;
+  float: left;
+  background-color: green;
+}
