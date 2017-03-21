@@ -35,28 +35,51 @@ class ChatBot extends WebSocket{
 	echo $res['commande']."\n";
 	$commande=$res['commande'];
 
-	//DECODE la data qui est un json de personne
-	$personne = json_decode($res['data'], true);
+	
+
+	//Retrouver qui a initialise la fonction
+	if ($commande != "CONNECT") { $utilisateurSocket= $this->getUtilisateurByUserId($user->id);}
+	
 
 	switch ($commande) {
 		case "CONNECT":
+			//DECODE la data qui est un json de personne
+			$personne = json_decode($res['data'], true);
 			$this->listeUtilisateurs[$personne['id']]->setIdSocket($user->id);
 			$this->listeUtilisateurs[$personne['id']]->setLongitude($personne['longitude']);
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
+			$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
 			break;
 		case "MYSPORT":
+			 echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
+			$mySports = json_encode(array("commande"=>"MYSPORT", "data"=>$utilisateurSocket->sports), true);
+			// $this->send($utilisateurSocket->socket,$mySports);
+			echo "\n\n this.say :: \n";
+			// $this->say("< ".$utilisateurSocket->idSocket." :".$mySports);
 
+
+
+
+			$this->say("< ".$user->socket." :".$mySports);
+	 		$this->send($user->socket,$mySports);
+
+			 // $this->say($mySports);
 			// emission de tous les sport de cet utilisateur
-			
+			// $this->say("====== < ".$user->socket." :".$msg);
+	 	// 		$this->send($user->socket,$retour);
 			 // $msg = $this->listeUtilisateurs["robin.degironde@gmail.com"]->sportsToString();
 
 			// $this->say("=====> ".$this->listeUtilisateurs[$personne['id']]);
 			//$this->say("< ".$user->socket." :".$msg);
  			//$this->send($user->socket,$msg);
+
+ 			echo "END\n\n\n";
 			break;
 		case "ADDCRENEAU":
-			$this->listeUtilisateurs[$personne['id']]->addSport($personne['nom'],$personne['date']);
+
+			$sport = json_decode($res['data'], true);
+			$utilisateurSocket->addSport($sport['nom'],$sport['date']);
 			break;
 		
 		default:
@@ -65,8 +88,7 @@ class ChatBot extends WebSocket{
 	}
 
 
-	//Retrouver qui a initialise la fonction
-	$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
+	
 
 	//VOIR SI LUTILISATEUR EST PRES
 	foreach ( $this->listeUtilisateurs as $utilisateur){

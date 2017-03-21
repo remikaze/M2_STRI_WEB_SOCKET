@@ -151,7 +151,7 @@ dateFormat: 'dd/mm/yy'
 
   var ws = null;
 
-  var userID = "remi.barbaste@gmail.com";
+  var userID = "robin.degironde@gmail.com";
 //  Création d'un nouveau socket
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
@@ -175,8 +175,8 @@ var rs = document.getElementById('rs');
     envoi.commande="CONNECT";
     var personne={};
     personne.id=userID;
-    personne.nom="BARBASTE";
-    personne.prenom="REMI";
+    personne.nom="DEGIRONDE";
+    personne.prenom="ROBIN";
     personne.longitude="43.474136";
     personne.latitude="1.929066";
     personne.mdp="mdp";
@@ -200,21 +200,21 @@ document.getElementById('position_utilisateur').innerHTML = "longitude : " + per
 }
 
 // Récupération de toutes les dates prévues par cette personne
-// function mesDates(){
-//   var envoi={};
-//   envoi.commande = "MYSPORT";
-//   var personne={};
-//   personne.id=userID;
-//   envoi.data=JSON.stringify(personne);
-//   var json= JSON.stringify(envoi);
+function mesDates(){
+  var envoi={};
+  envoi.commande = "MYSPORT";
+  // var personne={};
+  // personne.id=userID;
+  // envoi.data=JSON.stringify(personne);
+  var json= JSON.stringify(envoi);
 
-//   // // Envoi des variables de connexion
-//   ws.send(json);
-//   log("> "+json);
+  // Envoi des variables de connexion
+  ws.send(json);
+  log("> "+json);
 
-//   // réception des données
+  // réception des données
 
-// };
+}
 
 // Lors de l'ouverture de connexion
 ws.onopen = function() {
@@ -225,7 +225,7 @@ ws.onopen = function() {
 initSession();
 
 // On affiche tous les sports avec les créneaux associés
-// mesDates();
+setTimeout(mesDates(),5000);
 };
 
 // Lors de la réception d'un message
