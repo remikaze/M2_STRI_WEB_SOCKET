@@ -8,6 +8,7 @@ class Utilisateur{
 	var $latitude;
 	var $mdp;
 	var $idSocket;
+	var $socket;
 
 	public function __construct ($pId, $pNom, $pPrenom, $pLongitude, $pLatitude, $pMdp, $pIdSocket)
 	{
@@ -53,6 +54,11 @@ class Utilisateur{
 	public function setIdSocket($pIdSocket)
 	{
 		$this->idSocket=$pIdSocket;
+	}
+
+	public function setSocket($pSocket)
+	{
+		$this->socket=$pSocket;
 	}
 
 	public function setLongitude($pLongitude)

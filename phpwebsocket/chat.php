@@ -34,20 +34,13 @@ class ChatBot extends WebSocket{
 			$this->listeUtilisateurs[$personne['id']]->setIdSocket($user->id);
 			$this->listeUtilisateurs[$personne['id']]->setLongitude($personne['longitude']);
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
+			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
 			break;
 		
 		default:
 			echo "COMMANDE INCONNUE: $commande\n";
 			break;
 	}
-
-
-	// if($this->listeUtilisateurs['robin.degironde@gmail.com']->estPres($this->listeUtilisateurs['charles.banquet@live.com']))
-	// 	echo "CHARLES EST PRES DE ROBIN";
-	// else
-	// 	echo "CHARLES N'EST PAS PRES DE ROBIN";
-	
-	// }
 
 	foreach ( $this->listeUtilisateurs as $utilisateur){
 		
@@ -56,11 +49,22 @@ class ChatBot extends WebSocket{
 		{
 			if($this->listeUtilisateurs[$personne['id']]->estPres($utilisateur))
 			{
+				//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
 				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
 				echo $retour;
 
 				$this->say("< ".$user->socket." :".$msg);
 	 			$this->send($user->socket,$retour);
+
+
+	 			//MESSAGE A L AUTRE UTILISATEUR
+				$retour= $this->listeUtilisateurs[$personne['id']]->prenom." est pres de vous: ".$this->listeUtilisateurs[$personne['id']]->distance($utilisateur)."km\n";
+				echo $retour;
+
+
+				$this->say("< ".$utilisateur->socket." :".$msg);
+	 			$this->send($utilisateur->socket,$retour);
+
 			}
 		}
 		
