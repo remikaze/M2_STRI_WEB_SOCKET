@@ -23,23 +23,24 @@ class ChatBot extends WebSocket{
 	//Decode le message entier et recupere la commande
 	$res = json_decode($msg, true);
 	echo $res['commande']."\n";
+	$commande=$res['commande'];
 
-	//DECODE DATA
+	//DECODE la data qui est un json de personne
 	$personne = json_decode($res['data'], true);
-	// echo $personne['id']."\n";
 
-	switch ($res['commande']) {
-		case 'CONNECT':
+	switch ($commande) {
+		case "CONNECT":
+			echo "$commande\n";
 			$this->listeUtilisateurs[$personne['id']]->setIdSocket($user->id);
+			$this->listeUtilisateurs[$personne['id']]->setLongitude($personne['longitude']);
+			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			break;
 		
 		default:
-			echo "COMMANDE INCONNUE";
+			echo "COMMANDE INCONNUE: $commande\n";
 			break;
 	}
 
-	//decode la data qui est un json de personne
-	$personne= json_decode($res['data'], true);
 	// echo $this->listeUtilisateurs['robin.degironde@gmail.com']->toString();
 	// $this->listeUtilisateurs['robin.degironde@gmail.com']->setIdSocket($user->id);
 	// echo $this->listeUtilisateurs['robin.degironde@gmail.com']->toString();

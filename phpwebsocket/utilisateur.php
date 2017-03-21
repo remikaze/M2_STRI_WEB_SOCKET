@@ -30,6 +30,16 @@ class Utilisateur{
 		$this->idSocket=$pIdSocket;
 	}
 
+	public function setLongitude($pLongitude)
+	{
+		$this->longitude=$pLongitude;
+	}
+
+	public function setLatitude ($pLatitude)
+	{
+		$this->latitude=$pLatitude;
+	}
+
 	public function toString()
 	{
 		return $this->id.' '.$this->nom.' '.$this->prenom.' '.$this->longitude.' '.$this->latitude.' '.$this->mdp.' '.$this->idSocket."\n";
