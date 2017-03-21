@@ -151,6 +151,7 @@ dateFormat: 'dd/mm/yy'
 
   var ws = null;
 
+  var userID = "remi.barbaste@gmail.com";
 //  Création d'un nouveau socket
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
@@ -173,7 +174,7 @@ var rs = document.getElementById('rs');
     var envoi={};
     envoi.commande="CONNECT";
     var personne={};
-    personne.id="remi.barbaste@gmail.com";
+    personne.id=userID;
     personne.nom="BARBASTE";
     personne.prenom="REMI";
     personne.longitude="43.474136";
@@ -195,8 +196,25 @@ texte.value = '';
 document.getElementById('prenom_nom').innerHTML = personne.prenom + " " + personne.nom;
 document.getElementById('position_utilisateur').innerHTML = "longitude : " + personne.longitude + " et latitude : " + personne.latitude;
 
+
 }
 
+// Récupération de toutes les dates prévues par cette personne
+// function mesDates(){
+//   var envoi={};
+//   envoi.commande = "MYSPORT";
+//   var personne={};
+//   personne.id=userID;
+//   envoi.data=JSON.stringify(personne);
+//   var json= JSON.stringify(envoi);
+
+//   // // Envoi des variables de connexion
+//   ws.send(json);
+//   log("> "+json);
+
+//   // réception des données
+
+// };
 
 // Lors de l'ouverture de connexion
 ws.onopen = function() {
@@ -206,7 +224,8 @@ ws.onopen = function() {
 // On initialise l'utilisateur
 initSession();
 
-
+// On affiche tous les sports avec les créneaux associés
+// mesDates();
 };
 
 // Lors de la réception d'un message
@@ -259,11 +278,14 @@ document.getElementsByTagName('form')[0].onsubmit = function(e) {
 var envoi={};
 envoi.commande="ADDCRENEAU";
 var monSport = {} ;
-monSport.nom = texteFormulaireSport;
-monSport.date =  texteFormulaireJour;
+monSport.id = userID;
+monSport.nom = texteFormulaireSport.value;
+monSport.date =  texteFormulaireJour.value;
 
 
 envoi.data=JSON.stringify(monSport);
+
+
 var json= JSON.stringify(envoi);
 
 
@@ -271,12 +293,19 @@ var json= JSON.stringify(envoi);
 ws.send(json);
 log("> "+json);
 
-// Mise à zéro du champ et focus
+// Mise à zéro des champ et focus
+texteFormulaireSport.value = '';
+texteFormulaireJour.value = '';
+// TODO : On peut le retirer 
 texte.focus();
 texte.value = '';
+//TODO : fin de ont peut le retirer
+
 
 // Empêche de valider le formulaire
 e.preventDefault();
+
+
 };
 
 document.getElementsByTagName()

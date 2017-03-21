@@ -44,7 +44,19 @@ class ChatBot extends WebSocket{
 			$this->listeUtilisateurs[$personne['id']]->setLongitude($personne['longitude']);
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
+			break;
+		case "MYSPORT":
 
+			// emission de tous les sport de cet utilisateur
+			
+			 // $msg = $this->listeUtilisateurs["robin.degironde@gmail.com"]->sportsToString();
+
+			// $this->say("=====> ".$this->listeUtilisateurs[$personne['id']]);
+			//$this->say("< ".$user->socket." :".$msg);
+ 			//$this->send($user->socket,$msg);
+			break;
+		case "ADDCRENEAU":
+			$this->listeUtilisateurs[$personne['id']]->addSport($personne['nom'],$personne['date']);
 			break;
 		
 		default:
