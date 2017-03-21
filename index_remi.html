@@ -4,6 +4,35 @@
   <title>Sport en plein air</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="styles.css" type="text/css">
+
+<!-- Début header pour la gestion du choix d'une date -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#texteFormulaireJour" ).datepicker({
+altField: "#datepicker",
+closeText: 'Fermer',
+prevText: 'Précédent',
+nextText: 'Suivant',
+currentText: 'Aujourd\'hui',
+monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+weekHeader: 'Sem.',
+dateFormat: 'dd/mm/yy'
+});
+  } );
+  </script>
+<!-- Fin header pour la gestion du choix d'une date -->
+
+
+
 </head>
 <body>
   <!-- Titre principal de la page -->
@@ -45,10 +74,12 @@
       <h2>Mes dates de sport en plein air</h2> 
       <!-- Début ajout d'une nouvelle date -->
       <form>
-        <label for="texte">Jour</label>
-        <input type="text" name="texteFormulaireJour" id="texteFormulaireJour">
+        <label for="texte" >Jour &nbsp;&nbsp;  &nbsp; </label>
+        <input type="date" name='texteFormulaireJour' id='texteFormulaireJour' style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
         <label for="texte">Sport</label>
-        <input type="text" name="texteFormulaireSport" id="texteFormulaireSport">
+        <input type="text" name="texteFormulaireSport" id="texteFormulaireSport" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
         <input type="submit" value="Add date" id="validAddSport">
       </form>
 
@@ -218,6 +249,8 @@ texte.value = '';
 e.preventDefault();
 };
 
+
+// Ajout d'une date pour faire du sport
 document.getElementsByTagName('form')[0].onsubmit = function(e) {
   var texteFormulaireJour = document.getElementById('texteFormulaireJour');
   var texteFormulaireSport = document.getElementById('texteFormulaireSport');
@@ -225,13 +258,13 @@ document.getElementsByTagName('form')[0].onsubmit = function(e) {
 // Envoi de la chaîne texte
 var envoi={};
 envoi.commande="ADDCRENEAU";
-var mesSport = {} ; // TODO : mettre le tableau complet
-// TODO : a finir 
+var monSport = {} ;
+monSport.nom = texteFormulaireSport;
+monSport.date =  texteFormulaireJour;
 
 
-envoi.data=JSON.stringify(mesSport);
+envoi.data=JSON.stringify(monSport);
 var json= JSON.stringify(envoi);
-
 
 
 // Envoi des variables de connexion
