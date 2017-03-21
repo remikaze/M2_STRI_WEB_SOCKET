@@ -91,7 +91,7 @@ class ChatBot extends WebSocket{
 				if(array_key_exists($vSport, $vUtilisateur->sports)){
 					$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
 					foreach ($intersect as $vDate) {
-						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
+						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate." sa distance: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($vUtilisateur)."km\n";
 						$this->say("< ".$user->socket." :".$retour);
 	 					$this->send($user->socket,$retour);
 					}
