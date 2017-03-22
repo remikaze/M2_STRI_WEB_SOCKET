@@ -93,6 +93,12 @@ dateFormat: 'dd/mm/yy'
 
     </span> 
 
+
+    <div id="mySport" >
+    </div>
+
+
+
     <!-- Fin ajout d'une nouvelle date -->
 
   </span>
@@ -203,9 +209,6 @@ document.getElementById('position_utilisateur').innerHTML = "longitude : " + per
 function mesDates(){
   var envoi={};
   envoi.commande = "MYSPORT";
-  // var personne={};
-  // personne.id=userID;
-  // envoi.data=JSON.stringify(personne);
   var json= JSON.stringify(envoi);
 
   // Envoi des variables de connexion
@@ -231,8 +234,41 @@ setTimeout(mesDates(),5000);
 // Lors de la réception d'un message
 ws.onmessage = function(e) {
 // Ajout au journal du contenu du message
-log("< "+e.data);
+var msg = e.data;
+log("< azertyu "+msg);
+
+//Traitement des messages reçus
+var msgParse = JSON.parse(msg);
+log("< 126346 "+msgParse.data);
+if (msgParse.commande == "MYSPORT")
+{
+  // on met a jour la liste de mes sports
+  var mySport = document.getElementById('mySport');
+
+  // On parcourt tous les sports un par un
+  for (variable in msgParse.data)
+  {
+    for (var v2 in msgParse.data[variable])
+    {
+      mySport.innerHTML += '<div style="float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94">\n';
+      mySport.innerHTML += '<div style="font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff">X</div>\n';
+      mySport.innerHTML += '<div style="margin: 10px; margin-top: 4px;">\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black"><b>'+msgParse.data[variable][v2]+'</b></div>\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">'+variable+'</div>\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Nbre de participants actuel</div>\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Météo</div>\n';
+      mySport.innerHTML += '</div>\n';
+      mySport.innerHTML += '</div>\n';
+    
+      log("\n\n "+variable + " => " + msgParse.data[variable][v2]);
+    }
+  }
+
+}
+
 rs.innerHTML = this.readyState;
+
+
 };
 
 // Lors d'une erreur de connexion

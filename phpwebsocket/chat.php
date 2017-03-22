@@ -46,6 +46,7 @@ class ChatBot extends WebSocket{
 		case "MYSPORT":
 			 echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
 			$mySports = json_encode(array("commande"=>"MYSPORT", "data"=>$utilisateurSocket->sports), true);
+			echo "azert :: ".$mySports."\n\n";
 			echo "\n\n this.say :: \n";
 			$this->say("< ".$user->socket." :".$mySports);
 	 		$this->send($user->socket,$mySports);
