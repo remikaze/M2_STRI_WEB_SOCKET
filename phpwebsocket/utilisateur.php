@@ -144,11 +144,15 @@ class Utilisateur{
 
 	public function getMeteo()
 	{
-    	$request = 'http://api.openweathermap.org/data/2.5/forecast/city?APPID=***YOURAPIKEY***';
+    	$request = 'http://api.openweathermap.org/data/2.5/weather?lat='.$this->latitude.'&lon='.$this->longitude.'&appid=bd5e378503939ddaee76f12ad7a97608';
     	$response  = file_get_contents($request);
     	$jsonobj  = json_decode($response);
-    	print_r($jsonobj);
+    	// print_r($jsonobj);
+
+    	$reponse="Ville: ".$jsonobj->name." Meteo generale: ".strtolower($jsonobj->weather[0]->main).", Details: ".strtolower($jsonobj->weather[0]->description)."\n";
+    	return $reponse;
 	}
+
 
 }
 ?>

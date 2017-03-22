@@ -69,12 +69,12 @@ class ChatBot extends WebSocket{
 			if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
 			{
 				//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
-				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n";
+				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$utilisateur->getMeteo();
 				echo $retour;
 				$this->say("< ".$user->socket." :".$msg);
 	 			$this->send($user->socket,$retour);
 	 			//MESSAGE A L AUTRE UTILISATEUR
-				$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n";
+				$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est actuellement pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$this->listeUtilisateurs[$utilisateurSocket->id]->getMeteo();
 				echo $retour;
 				$this->say("< ".$utilisateur->socket." :".$msg);
 	 			$this->send($utilisateur->socket,$retour);
@@ -92,7 +92,7 @@ class ChatBot extends WebSocket{
 				if(array_key_exists($vSport, $vUtilisateur->sports)){
 					$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
 					foreach ($intersect as $vDate) {
-						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate." sa distance: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($vUtilisateur)."km\n";
+						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
 						$this->say("< ".$user->socket." :".$retour);
 	 					$this->send($user->socket,$retour);
 					}
@@ -104,6 +104,7 @@ class ChatBot extends WebSocket{
 		echo $utilisateur->toString();
 		echo $utilisateur->sportsToString();
 	}
+
 	}
 }
 $master = new ChatBot("0.0.0.0",1337);
