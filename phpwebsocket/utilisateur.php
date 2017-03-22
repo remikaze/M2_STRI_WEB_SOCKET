@@ -142,5 +142,13 @@ class Utilisateur{
 		return $retour;
 	}
 
+	public function getMeteo()
+	{
+    	$request = 'http://api.openweathermap.org/data/2.5/forecast/city?APPID=***YOURAPIKEY***';
+    	$response  = file_get_contents($request);
+    	$jsonobj  = json_decode($response);
+    	print_r($jsonobj);
+	}
+
 }
 ?>
