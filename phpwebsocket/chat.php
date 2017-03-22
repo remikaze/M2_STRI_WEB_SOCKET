@@ -2,11 +2,8 @@
 <?php
 // Run from command prompt > php -q chatbot.demo.php
 require "websocket.class.php";
-
-
 // Extended basic WebSocket as ChatBot
 class ChatBot extends WebSocket{
-
 	function getUtilisateurByUserId($pUserId)
 	{
 		foreach ( $this->listeUtilisateurs as $utilisateur ){
@@ -16,31 +13,26 @@ class ChatBot extends WebSocket{
 			}
 		}
 	}
-
   function process($user,$msg){
  
  	//ECHO
     $this->say("< ".$user->socket." :".$msg);
     $this->send($user->socket,$msg);
-
+	
 	// //Envoyer a tous les utilisateurs 	
  // 	foreach ( $this->users as $utilisateur ){
 	// 	$this->send($utilisateur->socket,$msg);
 	// }
-
 	
 	echo "JSON TO ARRAY\n";
 	//Decode le message entier et recupere la commande
 	$res = json_decode($msg, true);
 	echo $res['commande']."\n";
 	$commande=$res['commande'];
-
 	
-
 	//Retrouver qui a initialise la fonction
 	if ($commande != "CONNECT") { $utilisateurSocket= $this->getUtilisateurByUserId($user->id);}
 	
-
 	switch ($commande) {
 		case "CONNECT":
 			//DECODE la data qui est un json de personne
@@ -54,30 +46,12 @@ class ChatBot extends WebSocket{
 		case "MYSPORT":
 			 echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
 			$mySports = json_encode(array("commande"=>"MYSPORT", "data"=>$utilisateurSocket->sports), true);
-			// $this->send($utilisateurSocket->socket,$mySports);
 			echo "\n\n this.say :: \n";
-			// $this->say("< ".$utilisateurSocket->idSocket." :".$mySports);
-
-
-
-
 			$this->say("< ".$user->socket." :".$mySports);
 	 		$this->send($user->socket,$mySports);
-
-			 // $this->say($mySports);
-			// emission de tous les sport de cet utilisateur
-			// $this->say("====== < ".$user->socket." :".$msg);
-	 	// 		$this->send($user->socket,$retour);
-			 // $msg = $this->listeUtilisateurs["robin.degironde@gmail.com"]->sportsToString();
-
-			// $this->say("=====> ".$this->listeUtilisateurs[$personne['id']]);
-			//$this->say("< ".$user->socket." :".$msg);
- 			//$this->send($user->socket,$msg);
-
  			echo "END\n\n\n";
 			break;
 		case "ADDCRENEAU":
-
 			$sport = json_decode($res['data'], true);
 			$utilisateurSocket->addSport($sport['nom'],$sport['date']);
 			break;
@@ -86,10 +60,7 @@ class ChatBot extends WebSocket{
 			echo "COMMANDE INCONNUE: $commande\n";
 			break;
 	}
-
-
 	
-
 	//VOIR SI LUTILISATEUR EST PRES
 	foreach ( $this->listeUtilisateurs as $utilisateur){
 		//PREVENIR L'UTILISATEUR
@@ -98,22 +69,18 @@ class ChatBot extends WebSocket{
 			if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
 			{
 				//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
-				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n";
+				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$utilisateur->getMeteo();
 				echo $retour;
-
 				$this->say("< ".$user->socket." :".$msg);
 	 			$this->send($user->socket,$retour);
-
 	 			//MESSAGE A L AUTRE UTILISATEUR
-				$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n";
+				$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est actuellement pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$this->listeUtilisateurs[$utilisateurSocket->id]->getMeteo();
 				echo $retour;
-
 				$this->say("< ".$utilisateur->socket." :".$msg);
 	 			$this->send($utilisateur->socket,$retour);
 			}
 		}
 	}
-
 	//VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
 	foreach ( $this->listeUtilisateurs as $vUtilisateur){
 		//VERIF QUE CE NEST PAS LE MEME USER
@@ -125,25 +92,14 @@ class ChatBot extends WebSocket{
 				if(array_key_exists($vSport, $vUtilisateur->sports)){
 					$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
 					foreach ($intersect as $vDate) {
-						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate." sa distance: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($vUtilisateur)."km\n";
+						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
 						$this->say("< ".$user->socket." :".$retour);
 	 					$this->send($user->socket,$retour);
 					}
 				}
 			}
-
 		}
 	}
-
-
-
-
-
-
-
-
-
-
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();
 		echo $utilisateur->sportsToString();
