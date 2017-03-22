@@ -155,11 +155,11 @@ dateFormat: 'dd/mm/yy'
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+  ws = new MozWebSocket("ws://localhost:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+  ws = new WebSocket("ws://localhost:1337/phpwebsocket/chat.php");
 
 }
 
