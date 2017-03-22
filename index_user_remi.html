@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <title>Sport en plein air</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles.css" type="text/css">
+
+<!-- Début header pour la gestion du choix d'une date -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#texteFormulaireJour" ).datepicker({
+altField: "#datepicker",
+closeText: 'Fermer',
+prevText: 'Précédent',
+nextText: 'Suivant',
+currentText: 'Aujourd\'hui',
+monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+weekHeader: 'Sem.',
+dateFormat: 'dd/mm/yy'
+});
+  } );
+  </script>
+<!-- Fin header pour la gestion du choix d'une date -->
+
+
+
+</head>
+<body>
+  <!-- Titre principal de la page -->
+  <h1 align="center"> Bienvenue sur sport en plein air </h1>
+
+  <div style="margin:8px;background:green;">
+    <!-- Début des information sur l'utilisateur -->
+    <h2> Information sur l'utilisateur </h2>
+    <table>
+      <tr>
+        <td>
+          Nom : 
+        </td>
+        <td id="prenom_nom">
+
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Position : 
+        </td>
+        <td id="position_utilisateur">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Status : 
+        </td>
+        <td id="rs">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- Fin des messages sur l'utilisateur -->
+
+  <div width="100%" >
+    <!-- Partie gauche de la page : mes créneaux -->
+    <span id="dateGauche" >
+      <h2>Mes dates de sport en plein air</h2> 
+      <!-- Début ajout d'une nouvelle date -->
+      <form>
+        <label for="texte" >Jour &nbsp;&nbsp;  &nbsp; </label>
+        <input type="date" name='texteFormulaireJour' id='texteFormulaireJour' style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
+        <label for="texte">Sport</label>
+        <input type="text" name="texteFormulaireSport" id="texteFormulaireSport" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
+        <input type="submit" value="Add date" id="validAddSport">
+      </form>
+
+      <span style="display:block; text-align:left; border:solid 1px black; width: 500px;
+      background-color:red; font-weight:bold; font-size:16px;">
+      Date : <br/>
+      Sport : <br/>
+      Nbre de personnes : <br/>
+      Météo : <br/>
+      <input type="submit" value="Supprimer" id="validRemoveSport">
+
+    </span> 
+
+
+    <div id="mySport" >
+    </div>
+
+
+
+    <!-- Fin ajout d'une nouvelle date -->
+
+  </span>
+  <!-- Fin partie gauche de la page : mes créneaux -->
+
+
+
+  <!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
+  <span id="dateDroite" >
+    <h2>Les dates de sport en plein air des autres membres</h2> 
+
+
+    <div style="float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94">
+      <div style="font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff">X</div>
+      <div style="margin: 10px; margin-top: 4px;">
+        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black"><b>Date</b></div>
+        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Sport</div>
+        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Nbre de participants actuel</div>
+        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Météo</div>
+      </div>
+    </div>
+
+
+  </span>
+  <!-- Fin partie droite de la page : les créneaux des autres présents dans ma zone -->
+</div>
+
+
+
+
+
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<div class="wrap">
+
+
+
+  <p id="readyState">readyState : <span id="rs">&nbsp;</span></p>
+
+  <p><strong>Journal des échanges</strong></p>
+  <div name="log" id="log"></div>
+
+  <form>
+    <p>
+      <label for="texte">Envoyer</label>
+      <input type="text" name="texte" id="texte">
+      <input type="submit" value="OK" id="valid">
+    </p>
+
+  </form>
+
+</div>
+
+
+<script>
+
+  var ws = null;
+
+  var userID = "remi.barbaste@gmail.com";
+//  Création d'un nouveau socket
+// (Pour Mozilla < 11 avec version préfixée)
+if('MozWebSocket' in window) {
+
+  ws = new MozWebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+
+} else if('WebSocket' in window) {
+
+  ws = new WebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+
+}
+
+if(typeof ws !=='undefined') {
+
+// Indication de l'état
+var rs = document.getElementById('rs');
+
+
+  function initSession(){
+    var envoi={};
+    envoi.commande="CONNECT";
+    var personne={};
+    personne.id=userID;
+    personne.nom="BARBASTE";
+    personne.prenom="REMI";
+    personne.latitude="43.474136";
+    personne.longitude="1.929066";
+    personne.mdp="mdp";
+
+  envoi.data=JSON.stringify(personne);
+  var json= JSON.stringify(envoi);
+
+// Envoi des variables de connexion
+ws.send(json);
+log("> "+json);
+
+// Mise à zéro du champ et focus
+texte.focus();
+texte.value = '';
+
+// On rempli les champs associés
+document.getElementById('prenom_nom').innerHTML = personne.prenom + " " + personne.nom;
+document.getElementById('position_utilisateur').innerHTML = "longitude : " + personne.longitude + " et latitude : " + personne.latitude;
+
+
+}
+
+// Récupération de toutes les dates prévues par cette personne
+function mesDates(){
+  var envoi={};
+  envoi.commande = "MYSPORT";
+  var json= JSON.stringify(envoi);
+
+  // Envoi des variables de connexion
+  ws.send(json);
+  log("> "+json);
+
+  // réception des données
+
+}
+
+// Lors de l'ouverture de connexion
+ws.onopen = function() {
+  log("Socket ouvert");
+  rs.innerHTML = this.readyState;
+
+// On initialise l'utilisateur
+initSession();
+
+// On affiche tous les sports avec les créneaux associés
+setTimeout(mesDates(),5000);
+};
+
+// Lors de la réception d'un message
+ws.onmessage = function(e) {
+// Ajout au journal du contenu du message
+var msg = e.data;
+log("< azertyu "+msg);
+
+//Traitement des messages reçus
+var msgParse = JSON.parse(msg);
+log("< 126346 "+msgParse.data);
+if (msgParse.commande == "MYSPORT")
+{
+  // on met a jour la liste de mes sports
+  var mySport = document.getElementById('mySport');
+
+  // On parcourt tous les sports un par un
+  for (variable in msgParse.data)
+  {
+    for (var v2 in msgParse.data[variable])
+    {
+      mySport.innerHTML += '<div style="float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94">\n';
+      mySport.innerHTML += '<div style="font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff">X</div>\n';
+      mySport.innerHTML += '<div style="margin: 10px; margin-top: 4px;">\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black"><b>'+msgParse.data[variable][v2]+'</b></div>\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">'+variable+'</div>\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Nbre de participants actuel</div>\n';
+      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Météo</div>\n';
+      mySport.innerHTML += '</div>\n';
+      mySport.innerHTML += '</div>\n';
+    
+      log("\n\n "+variable + " => " + msgParse.data[variable][v2]);
+    }
+  }
+
+}
+
+rs.innerHTML = this.readyState;
+
+
+};
+
+// Lors d'une erreur de connexion
+ws.onerror = function(e) {  
+  log("Erreur de connexion");
+  rs.innerHTML = this.readyState;
+};
+
+// Lors de la fermeture de connexion
+ws.onclose = function(e) {  
+  if(e.wasClean) {
+    log("Socket fermé proprement");
+  } else {
+    log("Socket fermé");
+    if(e.reason) log(e.reason);
+  }
+  rs.innerHTML = this.readyState;
+};
+
+// Evénement submit du formulaire
+document.getElementsByTagName('form')[1].onsubmit = function(e) {
+  var texte = document.getElementById('texte');
+
+// Envoi de la chaîne texte
+ws.send(texte.value);
+log("> "+texte.value);
+
+// Mise à zéro du champ et focus
+texte.focus();
+texte.value = '';
+
+// Empêche de valider le formulaire
+e.preventDefault();
+};
+
+
+// Ajout d'une date pour faire du sport
+document.getElementsByTagName('form')[0].onsubmit = function(e) {
+  var texteFormulaireJour = document.getElementById('texteFormulaireJour');
+  var texteFormulaireSport = document.getElementById('texteFormulaireSport');
+
+// Envoi de la chaîne texte
+var envoi={};
+envoi.commande="ADDCRENEAU";
+var monSport = {} ;
+monSport.id = userID;
+monSport.nom = texteFormulaireSport.value;
+monSport.date =  texteFormulaireJour.value;
+
+
+envoi.data=JSON.stringify(monSport);
+
+
+var json= JSON.stringify(envoi);
+
+
+// Envoi des variables de connexion
+ws.send(json);
+log("> "+json);
+
+// Mise à zéro des champ et focus
+texteFormulaireSport.value = '';
+texteFormulaireJour.value = '';
+// TODO : On peut le retirer 
+texte.focus();
+texte.value = '';
+//TODO : fin de ont peut le retirer
+
+
+// Empêche de valider le formulaire
+e.preventDefault();
+
+
+};
+
+document.getElementsByTagName()
+
+
+
+
+
+} else {
+
+  alert("Ce navigateur ne supporte pas Web Sockets");
+
+}
+
+// Fonction d’ajout au journal
+function log(txt) {
+  document.getElementById('log').innerHTML += txt + "<br>\n";
+}
+
+</script>
+
+</body>
+</html>
