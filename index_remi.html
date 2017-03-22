@@ -83,19 +83,10 @@ dateFormat: 'dd/mm/yy'
         <input type="submit" value="Add date" id="validAddSport">
       </form>
 
-      <span style="display:block; text-align:left; border:solid 1px black; width: 500px;
-      background-color:red; font-weight:bold; font-size:16px;">
-      Date : <br/>
-      Sport : <br/>
-      Nbre de personnes : <br/>
-      Météo : <br/>
-      <input type="submit" value="Supprimer" id="validRemoveSport">
 
-    </span> 
+    <span id="mySport" >
 
-
-    <div id="mySport" >
-    </div>
+    </span>
 
 
 
@@ -110,17 +101,8 @@ dateFormat: 'dd/mm/yy'
   <span id="dateDroite" >
     <h2>Les dates de sport en plein air des autres membres</h2> 
 
-
-    <div style="float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94">
-      <div style="font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff">X</div>
-      <div style="margin: 10px; margin-top: 4px;">
-        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black"><b>Date</b></div>
-        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Sport</div>
-        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Nbre de participants actuel</div>
-        <div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Météo</div>
-      </div>
-    </div>
-
+    <span id="sportNear">
+    </span>
 
   </span>
   <!-- Fin partie droite de la page : les créneaux des autres présents dans ma zone -->
@@ -131,6 +113,8 @@ dateFormat: 'dd/mm/yy'
 
 
 
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 <div class="wrap">
 
@@ -215,9 +199,21 @@ function mesDates(){
   ws.send(json);
   log("> "+json);
 
-  // réception des données
 
 }
+
+
+function dateNear(){
+  var envoi={};
+  envoi.commande = "ALLSPORTNEAR";
+  var json= JSON.stringify(envoi);
+
+  // Envoi des variables de connexion
+  ws.send(json);
+  log("> "+json);
+
+}
+
 
 // Lors de l'ouverture de connexion
 ws.onopen = function() {
@@ -229,6 +225,8 @@ initSession();
 
 // On affiche tous les sports avec les créneaux associés
 setTimeout(mesDates(),5000);
+// on récupère les sports des personnes se trouvant à proximité
+ // setTimeout(dateNear(),5000);
 };
 
 // Lors de la réception d'un message
@@ -240,6 +238,7 @@ log("< azertyu "+msg);
 //Traitement des messages reçus
 var msgParse = JSON.parse(msg);
 log("< 126346 "+msgParse.data);
+// Affichage de tous les sports de la personne connectée
 if (msgParse.commande == "MYSPORT")
 {
   // on met a jour la liste de mes sports
@@ -250,20 +249,76 @@ if (msgParse.commande == "MYSPORT")
   {
     for (var v2 in msgParse.data[variable])
     {
-      mySport.innerHTML += '<div style="float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94">\n';
-      mySport.innerHTML += '<div style="font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff">X</div>\n';
-      mySport.innerHTML += '<div style="margin: 10px; margin-top: 4px;">\n';
-      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black"><b>'+msgParse.data[variable][v2]+'</b></div>\n';
-      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">'+variable+'</div>\n';
-      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Nbre de participants actuel</div>\n';
-      mySport.innerHTML += '<div style="width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black">Météo</div>\n';
-      mySport.innerHTML += '</div>\n';
-      mySport.innerHTML += '</div>\n';
+      var temp ="";
+      temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
+      temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\" type=\"submit\" value=\"X\" id=\"validRemoveSport\"></div>\n";
+      temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
+      temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[variable][v2]+"</b></div>\n";
+      temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+variable+"</div>\n";
+      temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
+      temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
+      temp += "</div>\n";
+      temp += "</div>\n";
+      mySport.innerHTML += temp;
     
       log("\n\n "+variable + " => " + msgParse.data[variable][v2]);
     }
   }
 
+}
+// Affichage du sport venant d'être ajouté
+else if (msgParse.commande == "ADDSPORT")
+{
+  var mySport = document.getElementById('mySport');
+
+  var temp ="";
+  temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
+  temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\" type=\"submit\" value=\"X\" id=\"validRemoveSport\"></div>\n";
+  temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
+  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>date</b></div>\n";
+  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">sport</div>\n";
+  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
+  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
+  temp += "</div>\n";
+  temp += "</div>\n";
+  mySport.innerHTML += temp;
+}
+//Affichage de tous les sports pratiqués par les personnes à proximité
+else if (msgParse.commande == "ALLSPORTNEARREP")
+{
+  // on met a jour la liste de mes sports
+  var sportNear = document.getElementById('sportNear');
+
+  // On parcourt toutes les personnes à proximité
+  for (personne in msgParse.data)
+  {
+          // log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa :: "+personne+"\n");
+
+    // On parcourt tous les sports un par un
+    for (sport in msgParse.data[personne].creneaux)
+    {
+            // log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb :: "+sport+"\n");
+      // on parcourt désormais toutes les dates de ce sport
+      for (var variable in msgParse.data[personne].creneaux[sport])
+      {
+        // log("cccccccccccccccccccccccccccccccccccccccc :: "+msgParse.data[personne].creneaux[sport][variable]+"\n");
+        var temp ="";
+        temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
+        temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 40px; color: #ffffff\" type=\"submit\" value=\"add\" id=\"validRemoveSport\"></div>\n";
+        temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
+        temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[personne].creneaux[sport][variable]+"</b></div>\n";
+        temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+sport+"</div>\n";
+        temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Par "+msgParse.data[personne].prenom+" "+msgParse.data[personne].nom+"</div>\n";
+        temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
+        temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
+        temp += "</div>\n";
+        temp += "</div>\n";
+        sportNear.innerHTML += temp;
+
+  //       log("\n\n "+temp ;
+      }
+    }
+  }
 }
 
 rs.innerHTML = this.readyState;

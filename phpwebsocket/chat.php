@@ -44,7 +44,7 @@ class ChatBot extends WebSocket{
 			$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
 			break;
 		case "MYSPORT":
-			 echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
+			echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
 			$mySports = json_encode(array("commande"=>"MYSPORT", "data"=>$utilisateurSocket->sports), true);
 			echo "azert :: ".$mySports."\n\n";
 			echo "\n\n this.say :: \n";
@@ -53,10 +53,39 @@ class ChatBot extends WebSocket{
  			echo "END\n\n\n";
 			break;
 		case "ADDCRENEAU":
+			// Enregistrement du créneau
 			$sport = json_decode($res['data'], true);
 			$utilisateurSocket->addSport($sport['nom'],$sport['date']);
+			// Mise à jour de l'utilisateur
+			$mySports = json_encode(array("commande"=>"ADDSPORT", "data"=>$res['data']), true);
+			$this->say("< ".$user->socket." :".$mySports);
+	 		$this->send($user->socket,$mySports);
 			break;
-		
+		case "ALLSPORTNEAR":
+			echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
+			$allsportnear = array();
+			// on parcourt tous les utilisateurs pour voir si ils sont à proximité
+			foreach ($this->listeUtilisateurs as $utilisateur){
+				echo "\n\n\n =====> for each\n";
+				//on vérifie que ça ne soit pas l'utilisateur connecté
+				if($utilisateur->getId() != $utilisateurSocket->id)
+				{
+					echo "\n\n\n =====> if ok\n";
+					// si l'utilisateur se trouve à proximité, on affiche les dates disponibles
+					if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
+					{
+						// echo "\n\n\n =====> if 2 ok == "+$utilisateur->sportsToString()+"\n";
+						$allsportnear[$utilisateur->id] = array("nom"=>$utilisateur->nom, "prenom"=>$utilisateur->prenom,"creneaux"=>$utilisateur->sports);
+					}
+				}
+			}
+			$allSports = json_encode(array("commande"=>"ALLSPORTNEARREP", "data"=>$allsportnear), true);
+			echo "azert :: ".$allSports."\n\n";
+			echo "\n\n this.say :: \n";
+			$this->say("< ".$user->socket." :".$allSports);
+	 		$this->send($user->socket,$allSports);
+ 			echo "END\n\n\n";
+			break;
 		default:
 			echo "COMMANDE INCONNUE: $commande\n";
 			break;
