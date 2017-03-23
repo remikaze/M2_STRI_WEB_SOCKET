@@ -49,13 +49,9 @@ class ChatBot extends WebSocket{
 
 			break;
 		case "MYSPORT":
-			echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
 			$mySports = json_encode(array("commande"=>"MYSPORT", "data"=>$utilisateurSocket->sports), true);
-			echo "azert :: ".$mySports."\n\n";
-			echo "\n\n this.say :: \n";
 			$this->say("< ".$user->socket." :".$mySports);
 	 		$this->send($user->socket,$mySports);
- 			echo "END\n\n\n";
 			break;
 		case "ADDCRENEAU":
 			// Enregistrement du créneau
@@ -67,7 +63,6 @@ class ChatBot extends WebSocket{
 	 		$this->send($user->socket,$mySports);
 			break;
 		case "ALLSPORTNEAR":
-			echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
 			$allsportnear = array();
 			// on parcourt tous les utilisateurs pour voir si ils sont à proximité
 			foreach ($this->listeUtilisateurs as $utilisateur){
@@ -77,17 +72,15 @@ class ChatBot extends WebSocket{
 					// si l'utilisateur se trouve à proximité, on affiche les dates disponibles
 					if($utilisateurSocket->estPres($utilisateur))
 					{
-						$allsportnear[$utilisateur->id] = $utilisateur->sports;
-						//REMI $allsportnear[$utilisateur->id] = array("nom"=>$utilisateur->nom, "prenom"=>$utilisateur->prenom,"creneaux"=>$utilisateur->sports);
+					//	$allsportnear[$utilisateur->id] = $utilisateur->sports;
+					 $allsportnear[$utilisateur->id] = array("nom"=>$utilisateur->nom, "prenom"=>$utilisateur->prenom,"creneaux"=>$utilisateur->sports);
 					}
 				}
 			}
+			print_r($allsportnear);
 			$allSports = json_encode(array("commande"=>"ALLSPORTNEARREP", "data"=>$allsportnear), true);
-			echo "azert :: ".$allSports."\n\n";
-			echo "\n\n this.say :: \n";
 			$this->say("< ".$user->socket." :".$allSports);
 	 		$this->send($user->socket,$allSports);
- 			echo "END\n\n\n";
 			break;
 		default:
 			echo "COMMANDE INCONNUE: $commande\n";

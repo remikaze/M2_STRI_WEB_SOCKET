@@ -299,16 +299,14 @@ else if (msgParse.commande == "ALLSPORTNEARREP")
   // On parcourt toutes les personnes à proximité
   for (personne in msgParse.data)
   {
-          // log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa :: "+personne+"\n");
 
     // On parcourt tous les sports un par un
     for (sport in msgParse.data[personne].creneaux)
     {
-            // log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb :: "+sport+"\n");
-      // on parcourt désormais toutes les dates de ce sport
+
+          // on parcourt désormais toutes les dates de ce sport
       for (var variable in msgParse.data[personne].creneaux[sport])
       {
-        // log("cccccccccccccccccccccccccccccccccccccccc :: "+msgParse.data[personne].creneaux[sport][variable]+"\n");
         var temp ="";
         temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
         temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 40px; color: #ffffff\" type=\"submit\" value=\"add\" id=\"validRemoveSport\"></div>\n";
