@@ -43,9 +43,9 @@ class ChatBot extends WebSocket{
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
 			$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
 
-			$utilisateurJson = $utilisateurSocket->getJson();
-			$this->say("< ".$user->socket." :".$utilisateurJson);
-	 		$this->send($user->socket,$mySports);
+			$reponse = json_encode(array("commande"=>"CONNECTREP", "data"=>$utilisateurSocket->getJson()), true);
+			$this->say("< ".$user->socket." :".$reponse);
+	 		$this->send($user->socket,$reponse);
 
 			break;
 		case "MYSPORT":
