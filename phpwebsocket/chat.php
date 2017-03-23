@@ -71,16 +71,14 @@ class ChatBot extends WebSocket{
 			$allsportnear = array();
 			// on parcourt tous les utilisateurs pour voir si ils sont à proximité
 			foreach ($this->listeUtilisateurs as $utilisateur){
-				echo "\n\n\n =====> for each\n";
 				//on vérifie que ça ne soit pas l'utilisateur connecté
-				if($utilisateur->getId() != $utilisateurSocket->id)
-				{
-					echo "\n\n\n =====> if ok\n";
+				if($utilisateur->id != $utilisateurSocket->id)
+				{	
 					// si l'utilisateur se trouve à proximité, on affiche les dates disponibles
-					if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
+					if($utilisateurSocket->estPres($utilisateur))
 					{
-						// echo "\n\n\n =====> if 2 ok == "+$utilisateur->sportsToString()+"\n";
-						$allsportnear[$utilisateur->id] = array("nom"=>$utilisateur->nom, "prenom"=>$utilisateur->prenom,"creneaux"=>$utilisateur->sports);
+						$allsportnear[$utilisateur->id] = $utilisateur->sports;
+						//REMI $allsportnear[$utilisateur->id] = array("nom"=>$utilisateur->nom, "prenom"=>$utilisateur->prenom,"creneaux"=>$utilisateur->sports);
 					}
 				}
 			}
