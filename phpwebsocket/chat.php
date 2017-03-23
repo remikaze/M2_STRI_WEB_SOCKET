@@ -82,6 +82,11 @@ class ChatBot extends WebSocket{
 			$this->say("< ".$user->socket." :".$allSports);
 	 		$this->send($user->socket,$allSports);
 			break;
+		case "DELETEDATE":
+			// Enregistrement du créneau
+			$sport = json_decode($res['data'], true);
+			$utilisateurSocket->suppSport($sport['nom'],$sport['date']);
+			break;
 		default:
 			echo "COMMANDE INCONNUE: $commande\n";
 			break;

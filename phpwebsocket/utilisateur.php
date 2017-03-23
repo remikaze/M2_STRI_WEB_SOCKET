@@ -128,6 +128,19 @@ class Utilisateur{
 		array_push($this->sports[$pSport], $pDate);
 	}
 
+	public function suppSport($pSport, $pDate)
+	{
+		if(array_key_exists($pSport, $this->sports))
+		{
+			$vSearch=array_search($pDate, $this->sports);
+			if($vSearch)
+			{
+				unset($this->sports[$pSport][]);
+			}
+		}		
+	}
+
+
 	public function sportsToString()
 	{
 		$retour="";
