@@ -55,7 +55,6 @@ class ChatBot extends WebSocket{
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
 			$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
-
 			$reponse = json_encode(array("commande"=>"CONNECTREP", "data"=>$utilisateurSocket->getJson()), true);
 			$this->say("< ".$user->socket." :".$reponse);
 	 		$this->send($user->socket,$reponse);
@@ -162,10 +161,11 @@ class ChatBot extends WebSocket{
 	 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
 	 		{
 	 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
-	 			envoyerMessage($utilisateurSocket->socket, formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
 	 			
+	 			$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
+
 	  			//MESSAGE A L AUTRE UTILISATEUR
-	 			envoyerMessage($utilisateur->socket, formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
+	 			$this->envoyerMessage($utilisateur->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
 			}
 	 	}
 	}
