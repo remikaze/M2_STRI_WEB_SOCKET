@@ -240,11 +240,11 @@ ws.onopen = function() {
 ws.onmessage = function(e) {
 // Ajout au journal du contenu du message
 var msg = e.data;
-log("< azertyu "+msg);
+log("<  "+msg);
 
 //Traitement des messages reçus
 var msgParse = JSON.parse(msg);
-log("< 126346 "+msgParse.data);
+log("<  "+msgParse.data);
 // Affichage de tous les sports de la personne connectée
 if (msgParse.commande == "MYSPORT")
 {
