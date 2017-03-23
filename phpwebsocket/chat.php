@@ -4,6 +4,7 @@
 require "websocket.class.php";
 // Extended basic WebSocket as ChatBot
 class ChatBot extends WebSocket{
+	
 	function getUtilisateurByUserId($pUserId)
 	{
 		foreach ( $this->listeUtilisateurs as $utilisateur ){
