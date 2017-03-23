@@ -96,45 +96,45 @@ class ChatBot extends WebSocket{
 			break;
 	}
 	
-	//VOIR SI LUTILISATEUR EST PRES
-	foreach ( $this->listeUtilisateurs as $utilisateur){
-		//PREVENIR L'UTILISATEUR
-		if($utilisateur->getId() != $utilisateurSocket->id)
-		{
-			if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
-			{
-				//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
-				$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$utilisateur->getMeteo();
-				echo $retour;
-				$this->say("< ".$user->socket." :".$msg);
-	 			$this->send($user->socket,$retour);
-	 			//MESSAGE A L AUTRE UTILISATEUR
-				$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est actuellement pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$this->listeUtilisateurs[$utilisateurSocket->id]->getMeteo();
-				echo $retour;
-				$this->say("< ".$utilisateur->socket." :".$msg);
-	 			$this->send($utilisateur->socket,$retour);
-			}
-		}
-	}
-	//VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
-	foreach ( $this->listeUtilisateurs as $vUtilisateur){
-		//VERIF QUE CE NEST PAS LE MEME USER
-		if($vUtilisateur->getId() != $utilisateurSocket->id)
-		{
-			//PARCOURIR TOUS LES SPORTS DE utilisateurSocket
-			foreach (array_keys($utilisateurSocket->sports) as $vSport) {
-				//REGARDER SI, AU MOINS vUtilisateur pratique le même sport que utilisateurSocket
-				if(array_key_exists($vSport, $vUtilisateur->sports)){
-					$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
-					foreach ($intersect as $vDate) {
-						$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
-						$this->say("< ".$user->socket." :".$retour);
-	 					$this->send($user->socket,$retour);
-					}
-				}
-			}
-		}
-	}
+	// //VOIR SI LUTILISATEUR EST PRES
+	// foreach ( $this->listeUtilisateurs as $utilisateur){
+	// 	//PREVENIR L'UTILISATEUR
+	// 	if($utilisateur->getId() != $utilisateurSocket->id)
+	// 	{
+	// 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
+	// 		{
+	// 			//MESSAGE A LUTILISATEUR QUI VIENT DE SE CONNECTER
+	// 			$retour= $utilisateur->prenom." est pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$utilisateur->getMeteo();
+	// 			echo $retour;
+	// 			$this->say("< ".$user->socket." :".$msg);
+	//  			$this->send($user->socket,$retour);
+	//  			//MESSAGE A L AUTRE UTILISATEUR
+	// 			$retour= $this->listeUtilisateurs[$utilisateurSocket->id]->prenom." est actuellement pres de vous: ".$this->listeUtilisateurs[$utilisateurSocket->id]->distance($utilisateur)."km\n".$this->listeUtilisateurs[$utilisateurSocket->id]->getMeteo();
+	// 			echo $retour;
+	// 			$this->say("< ".$utilisateur->socket." :".$msg);
+	//  			$this->send($utilisateur->socket,$retour);
+	// 		}
+	// 	}
+	// }
+	// //VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
+	// foreach ( $this->listeUtilisateurs as $vUtilisateur){
+	// 	//VERIF QUE CE NEST PAS LE MEME USER
+	// 	if($vUtilisateur->getId() != $utilisateurSocket->id)
+	// 	{
+	// 		//PARCOURIR TOUS LES SPORTS DE utilisateurSocket
+	// 		foreach (array_keys($utilisateurSocket->sports) as $vSport) {
+	// 			//REGARDER SI, AU MOINS vUtilisateur pratique le même sport que utilisateurSocket
+	// 			if(array_key_exists($vSport, $vUtilisateur->sports)){
+	// 				$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
+	// 				foreach ($intersect as $vDate) {
+	// 					$retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
+	// 					$this->say("< ".$user->socket." :".$retour);
+	//  					$this->send($user->socket,$retour);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();
 		echo $utilisateur->sportsToString();
