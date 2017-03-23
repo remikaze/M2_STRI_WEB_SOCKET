@@ -25,7 +25,7 @@
         dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
         dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
         weekHeader: 'Sem.',
-        dateFormat: 'dd/mm/YY'
+        dateFormat: 'dd/mm/y'
       });
     } );
   </script>
@@ -279,7 +279,7 @@ if (msgParse.commande == "MYSPORT")
     {
       var temp ="";
       temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
-      temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\" type=\"submit\" value=\"X\" id=\"validRemoveSport\"></div>\n";
+      temp += "<div ><button style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\"   id=\"validRemoveSport\" onclick=\"removeMySport('"+variable+"','"+msgParse.data[variable][v2]+"')\" >X</button></div>\n";
       temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
       temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[variable][v2]+"</b></div>\n";
       temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+variable+"</div>\n";
@@ -298,13 +298,13 @@ if (msgParse.commande == "MYSPORT")
 else if (msgParse.commande == "ADDSPORT")
 {
   var mySport = document.getElementById('mySport');
-
+  var newSport = JSON.parse(msgParse.data);
   var temp ="";
   temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
   temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\" type=\"submit\" value=\"X\" id=\"validRemoveSport\"></div>\n";
   temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
-  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>date</b></div>\n";
-  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">sport</div>\n";
+  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+newSport.date+"</b></div>\n";
+  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+newSport.nom+"</div>\n";
   temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
   temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
   temp += "</div>\n";
@@ -405,9 +405,9 @@ document.getElementsByTagName('form')[0].onsubmit = function(e) {
   initSession(mail.value,latitude.value,longitude.value);
 
   // On affiche tous les sports avec les créneaux associés
-  // setTimeout(mesDates(),7000);
+  setTimeout(mesDates(),5000);
   // on récupère les sports des personnes se trouvant à proximité
-  setTimeout(dateNear(),4000);
+  // setTimeout(dateNear(),7000);
 
 
   // on valide la zone
@@ -474,8 +474,6 @@ document.getElementsByTagName()
 
 
 
-
-
 } else {
 
   alert("Ce navigateur ne supporte pas Web Sockets");
@@ -487,6 +485,29 @@ function log(txt) {
   document.getElementById('log').innerHTML += txt + "<br>\n";
 }
 
+
+
+function removeMySport(date,sport) {
+  // Envoi de la chaîne texte
+  var envoi={};
+  envoi.commande="DELETEDATE";
+  var monSport = {} ;
+  monSport.id = userID;
+  monSport.nom = sport;
+  monSport.date =  date;
+
+
+  envoi.data=JSON.stringify(monSport);
+
+
+  var json= JSON.stringify(envoi);
+
+
+  // Envoi des variables de connexion
+  ws.send(json);
+  log("> "+json);
+
+}
 </script>
 
 </body>
