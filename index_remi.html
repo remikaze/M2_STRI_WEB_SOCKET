@@ -165,11 +165,11 @@ dateFormat: 'dd/mm/yy'
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.48.130:1337/phpwebsocket/chat.php");
+  ws = new MozWebSocket("ws://192.168.48.128:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.48.130:1337/phpwebsocket/chat.php");
+  ws = new WebSocket("ws://192.168.48.128:1337/phpwebsocket/chat.php");
 
 }
 
@@ -330,9 +330,10 @@ else if (msgParse.commande == "ALLSPORTNEARREP")
 else if (msgParse.commande == "CONNECTREP")
 {
 
+  var x = JSON.parse(msgParse.data);
   // On rempli les champs associés
-  document.getElementById('prenom_nom').innerHTML = msgParse.data.prenom + " " + msgParse.data.nom;
-  document.getElementById('position_utilisateur').innerHTML = "longitude : " + msgParse.data.longitude + " et latitude : " + msgParse.data.latitude;
+  document.getElementById('prenom_nom').innerHTML = x.prenom + " " + x.nom;
+  document.getElementById('position_utilisateur').innerHTML = "longitude : " + x.longitude + " et latitude : " + x.latitude;
 
 }
 
@@ -385,9 +386,9 @@ document.getElementsByTagName('form')[0].onsubmit = function(e) {
   initSession(mail.value,latitude.value,longitude.value);
 
   // On affiche tous les sports avec les créneaux associés
-  //setTimeout(mesDates(),5000);
+  setTimeout(mesDates(),7000);
   // on récupère les sports des personnes se trouvant à proximité
-   // setTimeout(dateNear(),5000);
+  setTimeout(dateNear(),5000);
 
 
    //mail.disabled = true;
