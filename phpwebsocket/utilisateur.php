@@ -125,7 +125,10 @@ class Utilisateur{
 			$this->sports[$pSport]= array();
 		}
 
-		array_push($this->sports[$pSport], $pDate);
+		if(!array_search($pDate, $this->sports[$pSport]))
+		{
+			array_push($this->sports[$pSport], $pDate);
+		}
 	}
 
 	public function suppSport($pSport, $pDate)
