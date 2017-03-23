@@ -27,6 +27,51 @@ class ChatBot extends WebSocket{
 	  	$this->send($pSocket,$pMsg);
 	}
 
+	function alerteSport($utilisateurSocket)
+	{
+		//VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
+		foreach ( $this->listeUtilisateurs as $vUtilisateur){
+			//VERIF QUE CE NEST PAS LE MEME USER
+			if($vUtilisateur->getId() != $utilisateurSocket->id)
+			{
+				//PARCOURIR TOUS LES SPORTS DE utilisateurSocket
+				foreach (array_keys($utilisateurSocket->sports) as $vSport) {
+					//REGARDER SI, AU MOINS vUtilisateur pratique le même sport que utilisateurSocket
+					if(array_key_exists($vSport, $vUtilisateur->sports)){
+						$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
+						foreach ($intersect as $vDate) {
+		 					$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTSPORT", json_encode(array("utilisateur"=>$vUtilisateur->getJson(), "sport"=>$vSport, "date"=>$vDate, true))));
+		 					usleep(10000);
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	function alerteProximite($utilisateurSocket)
+	{
+		//VOIR SI LUTILISATEUR EST PRES
+		foreach ( $this->listeUtilisateurs as $utilisateur){
+			//PREVENIR L'UTILISATEUR
+		 	if($utilisateur->getId() != $utilisateurSocket->id)
+		 	{
+		 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
+		 		{
+		 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
+		 			$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
+		 			usleep(10000);
+		  			//MESSAGE A L AUTRE UTILISATEUR
+		 			$this->envoyerMessage($utilisateur->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
+		 			usleep(10000);
+		 			
+		 			//LANCER ALERTE SPORT
+		 			$this->alerteSport($utilisateurSocket);
+				}
+		 	}
+		}
+	}
+
   	function process($user,$msg){
  
  	//ECHO
@@ -154,44 +199,7 @@ class ChatBot extends WebSocket{
 	// 	}
 	// }
 
-	//VOIR SI LUTILISATEUR EST PRES
-	 foreach ( $this->listeUtilisateurs as $utilisateur){
-	//PREVENIR L'UTILISATEUR
-	 	if($utilisateur->getId() != $utilisateurSocket->id)
-	 	{
-	 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
-	 		{
-	 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
-	 			$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
-	 			usleep(10000);
-	  			//MESSAGE A L AUTRE UTILISATEUR
-	 			$this->envoyerMessage($utilisateur->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
-	 			usleep(10000);
-			}
-	 	}
-	}
-
-	//VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
-	foreach ( $this->listeUtilisateurs as $vUtilisateur){
-		//VERIF QUE CE NEST PAS LE MEME USER
-		if($vUtilisateur->getId() != $utilisateurSocket->id)
-		{
-			//PARCOURIR TOUS LES SPORTS DE utilisateurSocket
-			foreach (array_keys($utilisateurSocket->sports) as $vSport) {
-				//REGARDER SI, AU MOINS vUtilisateur pratique le même sport que utilisateurSocket
-				if(array_key_exists($vSport, $vUtilisateur->sports)){
-					$intersect=array_intersect($utilisateurSocket->sports[$vSport], $vUtilisateur->sports[$vSport]);
-					foreach ($intersect as $vDate) {
-						// $retour= $vUtilisateur->prenom." est disponible pour faire: ".$vSport." le ".$vDate."\n";
-						// $this->say("< ".$user->socket." :".$retour);
-	 					// 	$this->send($user->socket,$retour);
-	 					$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTSPORT", json_encode(array("utilisateur"=>$vUtilisateur->getJson(), "sport"=>$vSport, "date"=>$vDate, true))));
-	 					usleep(10000);
-					}
-				}
-			}
-		}
-	}
+	$this->alerteProximite($utilisateurSocket);
 	
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();
