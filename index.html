@@ -300,8 +300,8 @@ else if (msgParse.commande == "ADDSPORT")
   var mySport = document.getElementById('mySport');
   var newSport = JSON.parse(msgParse.data);
   var temp ="";
-  temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
-  temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\" type=\"submit\" value=\"X\" id=\"validRemoveSport\"></div>\n";
+  temp += "<div id=\"creneauSport_"+newSport.nom+"_"+newSport.date+"\" style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
+  temp += "<div ><button style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\" id=\"validRemoveSport\" onclick=\"removeMySport('"+newSport.nom+"','"+newSport.date+"')\">X</button></div>\n";
   temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
   temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+newSport.date+"</b></div>\n";
   temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+newSport.nom+"</div>\n";
@@ -329,8 +329,8 @@ else if (msgParse.commande == "ALLSPORTNEARREP")
           for (var variable in msgParse.data[personne].creneaux[sport])
           {
             var temp ="";
-            temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
-            temp += "<div ><input style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 40px; color: #ffffff\" type=\"submit\" value=\"add\" id=\"validRemoveSport\"></div>\n";
+            temp += "<div id=\"creneauSport_"+msgParse.data[personne].prenom+"_"+sport+"_"+msgParse.data[personne].creneaux[sport][variable]+"\" style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
+            temp += "<div ><button style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 40px; color: #ffffff\" id=\"validAdd\" onclick=\"addSport('"+sport+"','"+msgParse.data[personne].creneaux[sport][variable]+"')\">add</button></div>\n";
             temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
             temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[personne].creneaux[sport][variable]+"</b></div>\n";
             temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+sport+"</div>\n";
@@ -512,6 +512,27 @@ function removeMySport(sport,date) {
 
   document.getElementById(elementID).style.display = 'none';
 
+}
+
+function addSport(sport,date){
+  // Envoi de la chaîne texte
+  var envoi={};
+  envoi.commande="ADDCRENEAU";
+  var monSport = {} ;
+  monSport.id = userID;
+  monSport.nom = sport;
+  monSport.date =  date;
+
+
+  envoi.data=JSON.stringify(monSport);
+
+
+  var json= JSON.stringify(envoi);
+
+
+  // Envoi des variables de connexion
+  ws.send(json);
+  log("> aaaaaaaaaaaaaaaaaab : "+json);
 }
 </script>
 
