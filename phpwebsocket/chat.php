@@ -190,8 +190,8 @@ class ChatBot extends WebSocket{
 					}
 				}
 			}
-	// 	}
-	// }
+		}
+	}
 	
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();
