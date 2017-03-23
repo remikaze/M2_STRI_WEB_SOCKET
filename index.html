@@ -75,7 +75,7 @@
 
   <!-- Div contenant le bouton de déconnexion -->
   <div id="zoneDeconnexion">
-    <input type="submit" value="Se déconnecter" id="validDeconnexion" OnClick="javascript:window.history.go(0)" >
+    <input type="submit" value="Se déconnecter" id="validDeconnexion">
   </div>
 
   <div id="zonePersConnect">
@@ -341,6 +341,7 @@ else if (msgParse.commande == "ALLSPORTNEARREP")
             temp += "</div>\n";
             sportNear.innerHTML += temp;
 
+  //       log("\n\n "+temp ;
 }
 }
 }
@@ -406,7 +407,7 @@ document.getElementsByTagName('form')[0].onsubmit = function(e) {
   // On affiche tous les sports avec les créneaux associés
   setTimeout(mesDates(),5000);
   // on récupère les sports des personnes se trouvant à proximité
-  setTimeout(dateNear(),7000);
+  // setTimeout(dateNear(),7000);
 
   //essayer avec 
   //setInterval(mesDates(){go();},1000);
