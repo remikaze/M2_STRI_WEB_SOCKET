@@ -25,7 +25,7 @@
         dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
         dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
         weekHeader: 'Sem.',
-        dateFormat: 'dd/mm/yy'
+        dateFormat: 'dd/mm/YY'
       });
     } );
   </script>
@@ -38,97 +38,119 @@
   <!-- Titre principal de la page -->
   <h1 align="center"> Bienvenue sur sport en plein air </h1>
 
+  <div id="zoneConnexion">
+    <h2>Gestion compte</h2> 
+    <!-- Début ajout d'une nouvelle date -->
+    <form>
+      <table>
+        <tr>
+          <td>
+            <label for="texte" >Mail : </label>
+          </td>
+          <td width="800px">
+            <input type="text" name="mailConnexion" id="mailConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 20px; font-family: tahoma; text-align: center;'>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="texte" >Longitude :  </label>
+          </td>
+          <td>
+            <input type="text" name="longitudeConnexion" id="longitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 20px; font-family: tahoma; text-align: center;'>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="texte" >Latitude : </label>
+          </td>
+          <td>
+            <input type="text" name="latitudeConnexion" id="latitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 20px; font-family: tahoma; text-align: center;'>
+          </td>
+        </tr>
+      </table>
 
-  <h2>Gestion compte</h2> 
-  <!-- Début ajout d'une nouvelle date -->
-  <form>
-    <label for="texte" >Mail &nbsp;&nbsp;  &nbsp; </label>
-    <input type="text" name="mailConnexion" id="mailConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
-    <br/>
-    <label for="texte" >Longitude &nbsp;&nbsp;  &nbsp; </label>
-    <input type="text" name="longitudeConnexion" id="longitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
-    <br/>
-    <label for="texte" >Latitude &nbsp;&nbsp;  &nbsp; </label>
-    <input type="text" name="latitudeConnexion" id="latitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
-    <br/>
+      <input type="submit" value="Se connecter" id="validConnexion">
+    </form>
+  </div> 
 
-    <input type="submit"  id="validConnexion">
-  </form>
-
-
-
-  <div style="margin:8px;background:green;">
-    <!-- Début des information sur l'utilisateur -->
-    <h2> Information sur l'utilisateur </h2>
-    <table>
-      <tr>
-        <td>
-          Nom : 
-        </td>
-        <td id="prenom_nom">
-
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Position : 
-        </td>
-        <td id="position_utilisateur">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Status : 
-        </td>
-        <td id="rs">
-        </td>
-      </tr>
-    </table>
-  </div>
-  <!-- Fin des messages sur l'utilisateur -->
-
-  <div width="100%" >
-    <!-- Partie gauche de la page : mes créneaux -->
-    <span id="dateGauche" >
-      <h2>Mes dates de sport en plein air</h2> 
-      <!-- Début ajout d'une nouvelle date -->
-      <form>
-        <label for="texte" >Jour &nbsp;&nbsp;  &nbsp; </label>
-        <input type="date" name='texteFormulaireJour' id='texteFormulaireJour' style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
-        <br/>
-        <label for="texte">Sport</label>
-        <input type="text" name="texteFormulaireSport" id="texteFormulaireSport" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
-        <br/>
-        <input type="submit" value="Add date" id="validAddSport">
-      </form>
-
-
-      <span id="mySport" >
-
-      </span>
-
-
-
-      <!-- Fin ajout d'une nouvelle date -->
-
-    </span>
-    <!-- Fin partie gauche de la page : mes créneaux -->
-
-
-
-    <!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
-    <span id="dateDroite" >
-      <h2>Les dates de sport en plein air des autres membres</h2> 
-
-      <span id="sportNear">
-      </span>
-
-    </span>
-    <!-- Fin partie droite de la page : les créneaux des autres présents dans ma zone -->
+  <!-- Div contenant le bouton de déconnexion -->
+  <div id="zoneDeconnexion">
+    <input type="submit" value="Se déconnecter" id="validDeconnexion">
   </div>
 
+  <div id="zonePersConnect">
+    <div style="margin:8px;background:green;">
+      <!-- Début des information sur l'utilisateur -->
+      <h2> Information sur l'utilisateur </h2>
+      <table>
+        <tr>
+          <td>
+            Nom : 
+          </td>
+          <td id="prenom_nom">
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Position : 
+          </td>
+          <td id="position_utilisateur">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Status : 
+          </td>
+          <td id="rs">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- Fin des messages sur l'utilisateur -->
+
+    <div width="100%" >
+      <!-- Partie gauche de la page : mes créneaux -->
+      <span id="dateGauche" >
+        <h2>Mes dates de sport en plein air</h2> 
+        <!-- Début ajout d'une nouvelle date -->
+        <form>
+          <label for="texte" >Jour &nbsp;&nbsp;  &nbsp; </label>
+          <input type="date" name='texteFormulaireJour' id='texteFormulaireJour' style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+          <br/>
+          <label for="texte">Sport</label>
+          <input type="text" name="texteFormulaireSport" id="texteFormulaireSport" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+          <br/>
+          <input type="submit" value="Add date" id="validAddSport">
+        </form>
 
 
+        <span id="mySport" >
+
+        </span>
+
+
+
+        <!-- Fin ajout d'une nouvelle date -->
+
+      </span>
+      <!-- Fin partie gauche de la page : mes créneaux -->
+
+
+
+      <!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
+      <span id="dateDroite" >
+        <h2>Les dates de sport en plein air des autres membres</h2> 
+
+        <span id="sportNear">
+        </span>
+
+      </span>
+      <!-- Fin partie droite de la page : les créneaux des autres présents dans ma zone -->
+    </div>
+
+
+  </div>
 
 
 
@@ -165,11 +187,11 @@
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.48.128:1337/phpwebsocket/chat.php");
+  ws = new MozWebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.48.128:1337/phpwebsocket/chat.php");
+  ws = new WebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
 
 }
 
@@ -233,7 +255,6 @@ function dateNear(){
 ws.onopen = function() {
   log("Socket ouvert");
   rs.innerHTML = this.readyState;
-
 };
 
 // Lors de la réception d'un message
@@ -384,12 +405,22 @@ document.getElementsByTagName('form')[0].onsubmit = function(e) {
   initSession(mail.value,latitude.value,longitude.value);
 
   // On affiche tous les sports avec les créneaux associés
-  setTimeout(mesDates(),7000);
+  // setTimeout(mesDates(),7000);
   // on récupère les sports des personnes se trouvant à proximité
-  setTimeout(dateNear(),5000);
+  setTimeout(dateNear(),4000);
 
 
-   //mail.disabled = true;
+  // on valide la zone
+  document.getElementById('zoneConnexion').style.visibility = "hidden";
+  document.getElementById('zoneConnexion').style.height = "0";
+  document.getElementById('zoneDeconnexion').style.visibility = "visible";
+  document.getElementById('zoneDeconnexion').style.height = "auto";
+  document.getElementById('zonePersConnect').style.visibility = "visible";
+  document.getElementById('zonePersConnect').style.height = "auto";
+
+
+   
+
 
 // Empêche de valider le formulaire
 e.preventDefault();

@@ -86,3 +86,19 @@ ul {
   float: left;
   /*background-color: green;*/
 }
+
+
+#zoneConnexion {
+  visibility: visible;
+  height: auto;
+}
+
+#zoneDeconnexion {
+  visibility: hidden;
+  height: 0;
+}
+
+#zonePersConnect {
+  visibility: hidden;
+  height: 0;
+}
