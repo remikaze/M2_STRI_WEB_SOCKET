@@ -278,7 +278,7 @@ if (msgParse.commande == "MYSPORT")
     for (var v2 in msgParse.data[variable])
     {
       var temp ="";
-      temp += "<div style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
+      temp += "<div id=\"creneauSport_"+variable+"_"+msgParse.data[variable][v2]+"\" style=\"float: left;  margin: 10px; border: 1px solid #73ba74; border-left: 4px solid #73ba74; border-radius: 5px; background-color: #a3da94\">\n";
       temp += "<div ><button style=\"font-family: tahoma; font-size: 11px; text-align: center; float: right; background-color: #73ba74; height: 18px; width: 20px; color: #ffffff\"   id=\"validRemoveSport\" onclick=\"removeMySport('"+variable+"','"+msgParse.data[variable][v2]+"')\" >X</button></div>\n";
       temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
       temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[variable][v2]+"</b></div>\n";
@@ -487,7 +487,7 @@ function log(txt) {
 
 
 
-function removeMySport(date,sport) {
+function removeMySport(sport,date) {
   // Envoi de la chaîne texte
   var envoi={};
   envoi.commande="DELETEDATE";
@@ -506,6 +506,11 @@ function removeMySport(date,sport) {
   // Envoi des variables de connexion
   ws.send(json);
   log("> "+json);
+
+  // on retire de l'affichage le sport supprimé
+  var elementID = 'creneauSport_'+sport+'_'+date;
+
+  document.getElementById(elementID).style.display = 'none';
 
 }
 </script>
