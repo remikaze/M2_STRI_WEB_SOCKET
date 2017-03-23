@@ -86,6 +86,15 @@ class ChatBot extends WebSocket{
 			// Enregistrement du créneau
 			$sport = json_decode($res['data'], true);
 			$utilisateurSocket->suppSport($sport['nom'],$sport['date']);
+
+			//REPONSE?§
+			//$this->say("< ".$user->socket." :".$allSports);
+	 		//$this->send($user->socket,$allSports);
+			break;
+		case "GETMETEOJSON":
+			$meteoJson=$utilisateurSocket->getMeteoJson();
+			$this->say("< ".$user->socket." :".$meteoJson);
+	 		$this->send($user->socket,$meteoJson);
 			break;
 		default:
 			echo "COMMANDE INCONNUE: $commande\n";
