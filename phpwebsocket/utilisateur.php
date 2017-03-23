@@ -137,6 +137,7 @@ class Utilisateur{
 			{
 				unset($this->sports[$pSport][$vSearch]);
 				echo "suppSport: $pSport $pDate supprime\n";
+				print_r($this->sports[$pSport]);
 			}
 		}		
 	}
