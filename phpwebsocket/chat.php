@@ -13,7 +13,20 @@ class ChatBot extends WebSocket{
 			}
 		}
 	}
-  function process($user,$msg){
+
+	function formatMessageToJson($pCommand, $pData)
+	{
+		$jsonResult = json_encode(array("commande"=>$pCommand, "data"=>$pData), true);
+		return $jsonResult;
+	}
+
+	function envoyerMessage($pSocket, $pMsg)
+	{
+		$this->say("< ".$pSocket." :".$pMsg);
+	  	$this->send($pSocket,$pMsg);
+	}
+
+  	function process($user,$msg){
  
  	//ECHO
     $this->say("< ".$user->socket." :".$msg);
@@ -103,7 +116,7 @@ class ChatBot extends WebSocket{
 	
 	// //VOIR SI LUTILISATEUR EST PRES
 	// foreach ( $this->listeUtilisateurs as $utilisateur){
-	// 	//PREVENIR L'UTILISATEUR
+	////PREVENIR L'UTILISATEUR
 	// 	if($utilisateur->getId() != $utilisateurSocket->id)
 	// 	{
 	// 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
@@ -118,9 +131,9 @@ class ChatBot extends WebSocket{
 	// 			echo $retour;
 	// 			$this->say("< ".$utilisateur->socket." :".$msg);
 	//  			$this->send($utilisateur->socket,$retour);
-	// 		}
+	//		}
 	// 	}
-	// }
+	//}
 	// //VOIR SI utilSocket pratique les même sports que quelqu'un d'autre
 	// foreach ( $this->listeUtilisateurs as $vUtilisateur){
 	// 	//VERIF QUE CE NEST PAS LE MEME USER
@@ -140,6 +153,23 @@ class ChatBot extends WebSocket{
 	// 		}
 	// 	}
 	// }
+
+	//VOIR SI LUTILISATEUR EST PRES
+	 foreach ( $this->listeUtilisateurs as $utilisateur){
+	//PREVENIR L'UTILISATEUR
+	 	if($utilisateur->getId() != $utilisateurSocket->id)
+	 	{
+	 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
+	 		{
+	 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
+	 			envoyerMessage($utilisateurSocket->socket, formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
+	 			
+	  			//MESSAGE A L AUTRE UTILISATEUR
+	 			envoyerMessage($utilisateur->socket, formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
+			}
+	 	}
+	}
+	
 	foreach ( $this->listeUtilisateurs as $utilisateur ){
 		echo $utilisateur->toString();
 		echo $utilisateur->sportsToString();
