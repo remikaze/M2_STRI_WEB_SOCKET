@@ -109,6 +109,12 @@
     </div>
     <!-- Fin des messages sur l'utilisateur -->
 
+    <!-- Affichage de la météo du jour actuel -->
+    <div id="meteo">
+        <input type="submit" value="Actualiser la météo" id="actualiserMeteo" onclick="actualiserMeteo();">
+    </div>
+    <!-- Fin affichage de la météo du jour actuel -->
+
     <div width="100%" >
       <!-- Partie gauche de la page : mes créneaux -->
       <span id="dateGauche" >
@@ -126,7 +132,6 @@
 
 
         <span id="mySport" >
-
         </span>
 
 
@@ -537,8 +542,19 @@ function addSport(sport,date){
 
   // Envoi des variables de connexion
   ws.send(json);
-  log("> aaaaaaaaaaaaaaaaaab : "+json);
+  log("> : "+json);
 }
+
+
+function actualiserMeteo() {
+  var envoi={};
+  envoi.commande="GETMETEOJSON";
+
+  var json= JSON.stringify(envoi);
+  // Envoi des variables de connexion
+  ws.send(json);
+}
+
 </script>
 
 </body>

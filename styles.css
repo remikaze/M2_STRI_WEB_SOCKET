@@ -102,3 +102,8 @@ ul {
   visibility: hidden;
   height: 0;
 }
+
+#meteo {
+  border: 1px;
+  
+}
