@@ -136,9 +136,8 @@ class Utilisateur{
 		if(array_key_exists($pSport, $this->sports))
 		{
 			$vSearch=array_search($pDate, $this->sports[$pSport]);
-			echo "vSearch: $vSearch";
 
-			if($vSearch)
+			if(!is_null($vSearch))
 			{
 				unset($this->sports[$pSport][$vSearch]);
 				echo "suppSport: $pSport $pDate supprime\n";
