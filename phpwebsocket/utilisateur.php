@@ -135,7 +135,7 @@ class Utilisateur{
 			$vSearch=array_search($pDate, $this->sports);
 			if($vSearch)
 			{
-				unset($this->sports[$pSport][]);
+				unset($this->sports[$pSport][$vSearch]);
 			}
 		}		
 	}
