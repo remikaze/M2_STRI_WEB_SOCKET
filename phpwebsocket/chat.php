@@ -4,6 +4,7 @@
 require "websocket.class.php";
 // Extended basic WebSocket as ChatBot
 class ChatBot extends WebSocket{
+	
 	function getUtilisateurByUserId($pUserId)
 	{
 		foreach ( $this->listeUtilisateurs as $utilisateur ){
@@ -161,7 +162,6 @@ class ChatBot extends WebSocket{
 	 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
 	 		{
 	 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
-	 			
 	 			$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
 
 	  			//MESSAGE A L AUTRE UTILISATEUR
