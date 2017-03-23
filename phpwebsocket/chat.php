@@ -162,10 +162,10 @@ class ChatBot extends WebSocket{
 	 		if($this->listeUtilisateurs[$utilisateurSocket->id]->estPres($utilisateur))
 	 		{
 	 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
-	 			envoyerMessage($utilisateurSocket->socket, formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
+	 			envoyerMessage($utilisateurSocket->socket, formatMessageToJson("ALERTEPROXIMITE", $utilisateur->getJson()));
 	 			
 	  			//MESSAGE A L AUTRE UTILISATEUR
-	 			envoyerMessage($utilisateur->socket, formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
+	 			envoyerMessage($utilisateur->socket, formatMessageToJson("ALERTEPROXIMITE", $utilisateurSocket->getJson()));
 			}
 	 	}
 	}
