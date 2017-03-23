@@ -72,7 +72,7 @@ class ChatBot extends WebSocket{
 					// si l'utilisateur se trouve à proximité, on affiche les dates disponibles
 					if($utilisateurSocket->estPres($utilisateur))
 					{
-					//	$allsportnear[$utilisateur->id] = $utilisateur->sports;
+						// $allsportnear[$utilisateur->id] = $utilisateur->sports;
 					 $allsportnear[$utilisateur->id] = array("nom"=>$utilisateur->nom, "prenom"=>$utilisateur->prenom,"creneaux"=>$utilisateur->sports);
 					}
 				}
