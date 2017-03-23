@@ -23,7 +23,9 @@ class WebSocket{
     $this->listeUtilisateurs['robin.degironde@gmail.com']->addSport("tennis", "10/07/17");
     $this->listeUtilisateurs['robin.degironde@gmail.com']->addSport("petanque", "09/07/17");
     $this->listeUtilisateurs['charles.banquet@live.com']->addSport("tennis", "09/07/17");
-    
+    $this->listeUtilisateurs['remi.barbaste@gmail.com']->addSport("tennis", "09/07/17");
+    $this->listeUtilisateurs['remi.barbaste@gmail.com']->addSport("petanque", "09/07/17");
+    $this->listeUtilisateurs['remi.barbaste@gmail.com']->addSport("chasse", "07/07/17");
 
   
     error_reporting(E_ALL);
