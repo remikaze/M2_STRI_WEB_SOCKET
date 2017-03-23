@@ -38,6 +38,25 @@ dateFormat: 'dd/mm/yy'
   <!-- Titre principal de la page -->
   <h1 align="center"> Bienvenue sur sport en plein air </h1>
 
+
+  <h2>Gestion compte</h2> 
+      <!-- Début ajout d'une nouvelle date -->
+      <form>
+        <label for="texte" >Mail &nbsp;&nbsp;  &nbsp; </label>
+        <input type="text" name="mailConnexion" id="mailConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
+        <label for="texte" >Longitude &nbsp;&nbsp;  &nbsp; </label>
+        <input type="text" name="longitudeConnexion" id="longitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
+        <label for="texte" >Latitude &nbsp;&nbsp;  &nbsp; </label>
+        <input type="text" name="latitudeConnexion" id="latitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 4px; font-family: tahoma; text-align: center;'>
+        <br/>
+
+        <input type="submit"  id="validConnexion">
+      </form>
+
+
+
   <div style="margin:8px;background:green;">
     <!-- Début des information sur l'utilisateur -->
     <h2> Information sur l'utilisateur </h2>
@@ -141,16 +160,16 @@ dateFormat: 'dd/mm/yy'
 
   var ws = null;
 
-  var userID = "robin.degironde@gmail.com";
+  var userID;
 //  Création d'un nouveau socket
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+  ws = new MozWebSocket("ws://192.168.48.130:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+  ws = new WebSocket("ws://192.168.48.130:1337/phpwebsocket/chat.php");
 
 }
 
@@ -160,16 +179,16 @@ if(typeof ws !=='undefined') {
 var rs = document.getElementById('rs');
 
 
-  function initSession(){
+  function initSession(userID1,lat,long){
     var envoi={};
     envoi.commande="CONNECT";
     var personne={};
-    personne.id=userID;
-    personne.nom="DEGIRONDE";
-    personne.prenom="ROBIN";
-    personne.latitude="43.474136";
-    personne.longitude="1.929066";
-    personne.mdp="mdp";
+    personne.id=userID1;
+    // personne.nom="DEGIRONDE";
+    // personne.prenom="ROBIN";
+    personne.latitude=lat;
+    personne.longitude=long;
+    // personne.mdp="mdp";
 
   envoi.data=JSON.stringify(personne);
   var json= JSON.stringify(envoi);
@@ -220,13 +239,6 @@ ws.onopen = function() {
   log("Socket ouvert");
   rs.innerHTML = this.readyState;
 
-// On initialise l'utilisateur
-initSession();
-
-// On affiche tous les sports avec les créneaux associés
-setTimeout(mesDates(),5000);
-// on récupère les sports des personnes se trouvant à proximité
- // setTimeout(dateNear(),5000);
 };
 
 // Lors de la réception d'un message
@@ -344,7 +356,7 @@ ws.onclose = function(e) {
 };
 
 // Evénement submit du formulaire
-document.getElementsByTagName('form')[1].onsubmit = function(e) {
+document.getElementsByTagName('form')[2].onsubmit = function(e) {
   var texte = document.getElementById('texte');
 
 // Envoi de la chaîne texte
@@ -359,9 +371,34 @@ texte.value = '';
 e.preventDefault();
 };
 
+// Connexion utilisateur
+document.getElementsByTagName('form')[2].onsubmit = function(e) {
+  var mail = document.getElementById('mailConnexion');
+  var latitude = document.getElementById('longitudeConnexion');
+  var longitude = document.getElementById('latitudeConnexion');
+
+  // On initialise l'utilisateur
+  initSession(mail.value,latitude.value,longitude.value);
+
+  // On affiche tous les sports avec les créneaux associés
+  setTimeout(mesDates(),5000);
+  // on récupère les sports des personnes se trouvant à proximité
+   // setTimeout(dateNear(),5000);
+
+
+   mail.disabled = true;
+
+// Empêche de valider le formulaire
+e.preventDefault();
+};
+
+
+
+
+
 
 // Ajout d'une date pour faire du sport
-document.getElementsByTagName('form')[0].onsubmit = function(e) {
+document.getElementsByTagName('form')[1].onsubmit = function(e) {
   var texteFormulaireJour = document.getElementById('texteFormulaireJour');
   var texteFormulaireSport = document.getElementById('texteFormulaireSport');
 
