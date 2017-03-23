@@ -42,6 +42,11 @@ class ChatBot extends WebSocket{
 			$this->listeUtilisateurs[$personne['id']]->setLatitude($personne['latitude']);
 			$this->listeUtilisateurs[$personne['id']]->setSocket($user->socket);
 			$utilisateurSocket= $this->getUtilisateurByUserId($user->id);
+
+			$utilisateurJson = $utilisateurSocket->getJson();
+			$this->say("< ".$user->socket." :".$utilisateurJson);
+	 		$this->send($user->socket,$mySports);
+
 			break;
 		case "MYSPORT":
 			echo "\n\n\nCOMMANDE CONNUE : $commande\n\n\n";
