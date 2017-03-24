@@ -174,8 +174,8 @@ class Utilisateur{
 
 	public function getMeteoJson()
 	{
-    	$request = 'http://api.openweathermap.org/data/2.5/weather?lat='.$this->latitude.'&lon='.$this->longitude.'&appid=bd5e378503939ddaee76f12ad7a97608';
-    	$response  = file_get_contents($request);
+    	$request = 'http://api.openweathermap.org/data/2.5/weather?lat='.$this->latitude.'&lon='.$this->longitude.'&appid=bd5e378503939ddaee76f12ad7a97608&units=metric';
+    	$reponse  = file_get_contents($request);
     	return $reponse;
 	}
 

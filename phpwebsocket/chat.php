@@ -151,8 +151,9 @@ class ChatBot extends WebSocket{
 			break;
 		case "GETMETEOJSON":
 			$meteoJson=$utilisateurSocket->getMeteoJson();
-			$this->say("< ".$user->socket." :".$meteoJson);
-	 		$this->send($user->socket,$meteoJson);
+			$message = json_encode(array("commande"=>"GETMETEOJSONREP", "data"=>$meteoJson), true);
+			$this->say("< ".$user->socket." :".$message);
+	 		$this->send($user->socket,$message);
 			break;
 		default:
 			echo "COMMANDE INCONNUE: $commande\n";

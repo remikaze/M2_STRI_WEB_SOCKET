@@ -112,8 +112,37 @@
     <!-- Affichage de la météo du jour actuel -->
     <div id="meteo">
         <input type="submit" value="Actualiser la météo" id="actualiserMeteo" onclick="actualiserMeteo();">
+
+<!-- <script src='http://openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js'></script><div id='openweathermap-widget'></div>
+                    <script type='text/javascript'>
+                    window.myWidgetParam = {
+                        id: 21,
+                        cityid: 6453974,
+                        appid: '',
+                        units: 'metric',
+                        containerid: 'openweathermap-widget',                        
+                    };
+                    (function() {
+                        var script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.async = true;
+                        script.src = 'http://openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(script, s);
+                    })();
+                  </script> -->
+
+
     </div>
     <!-- Fin affichage de la météo du jour actuel -->
+
+
+
+
+
+
+
+
 
     <div width="100%" >
       <!-- Partie gauche de la page : mes créneaux -->
@@ -145,6 +174,9 @@
 
       <!-- Partie droite de la page : les créneaux des autres présents dans ma zone -->
       <span id="dateDroite" >
+        <div id="meteo">
+          <input type="submit" value="Actualiser" id="actualiserSports" onclick="dateNear();">
+        </div>
         <h2>Les dates de sport en plein air des autres membres</h2> 
 
         <span id="sportNear">
@@ -360,6 +392,68 @@ else if (msgParse.commande == "CONNECTREP")
   document.getElementById('position_utilisateur').innerHTML = "longitude : " + x.longitude + " et latitude : " + x.latitude;
 
 }
+else if (msgParse.commande == "GETMETEOJSONREP")
+{
+
+  var x = JSON.parse(msgParse.data);
+  // log("===> "+JSON.parse(x.weather[0]).icon);
+
+  // On rempli les champs associés
+  var temp = "";
+  // temp += "<input type=\"submit\" value=\"Actualiser la météo\" id=`\"actualiserMeteo\" onclick=\"actualiserMeteo();\">";
+  temp += "<table>";
+  temp += "<tr>";
+  temp += "<td collspan=2>";
+  temp += "<img src=\"http://openweathermap.org/img/w/"+x.weather[0].icon+".png\"  >";
+  temp += "</td>";
+  temp += "</tr>";
+  temp += "<tr>";
+  temp += "<tr>";
+  temp += "<td>";
+  temp += "Temperature actuelle :"
+  temp += "</td>";
+  temp += "<td>";
+  temp += x.main.temp;
+  temp += "</td>";
+  temp += "</tr>";
+  temp += "<tr>";
+  temp += "<td>";
+  temp += "Temperature max :"
+  temp += "</td>";
+  temp += "<td>";
+  temp += x.main.temp_min;
+  temp += "</td>";
+  temp += "</tr>";
+  temp += "<tr>";
+  temp += "<td>";
+  temp += "Temperature min :"
+  temp += "</td>";
+  temp += "<td>";
+  temp += x.main.temp_max;
+  temp += "</td>";
+  temp += "</tr>";
+  // temp += "<td>";
+  // temp += "</td>";
+  // temp += "<td>";
+  // temp += "</td>";
+  // temp += "</tr>";
+  // temp += "<tr>";
+  // temp += "<td>";
+  // temp += "</td>";
+  // temp += "<td>";
+  // temp += "</td>";
+  // temp += "</tr>";
+  // temp += "<tr>";
+  // temp += "<td>";
+  // temp += "</td>";
+  // temp += "<td>";
+  // temp += "</td>";
+  // temp += "</tr>";
+  temp += "</table>";
+  document.getElementById('meteo').innerHTML = temp;
+
+}
+
 
 rs.innerHTML = this.readyState;
 
@@ -392,7 +486,7 @@ ws.send(texte.value);
 log("> "+texte.value);
 
 // Mise à zéro du champ et focus
-texte.focus();
+// texte.focus();
 texte.value = '';
 
 // Empêche de valider le formulaire
@@ -469,7 +563,7 @@ log("> "+json);
 texteFormulaireSport.value = '';
 texteFormulaireJour.value = '';
 // TODO : On peut le retirer 
-texte.focus();
+// texte.focus();
 texte.value = '';
 //TODO : fin de ont peut le retirer
 
@@ -554,6 +648,7 @@ function actualiserMeteo() {
   // Envoi des variables de connexion
   ws.send(json);
 }
+
 
 </script>
 
