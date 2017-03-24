@@ -60,10 +60,11 @@ class ChatBot extends WebSocket{
 		 		{
 		 			//MESSAGE A LUTILISATEUR QUI UTILISATE LA SOCKET
 		 			$this->envoyerMessage($utilisateurSocket->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateur->getJson()));
-		 			usleep(10000);
+		 			sleep(2);
+
 		  			//MESSAGE A L AUTRE UTILISATEUR
 		 			$this->envoyerMessage($utilisateur->socket, $this->formatMessageToJson("ALERTPROXIMITE", $utilisateurSocket->getJson()));
-		 			usleep(10000);
+		 			usleep(2);
 		 			
 		 			//LANCER ALERTE SPORT
 		 			$this->alerteSport($utilisateurSocket);

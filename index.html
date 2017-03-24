@@ -453,6 +453,11 @@ else if (msgParse.commande == "GETMETEOJSONREP")
   document.getElementById('meteo').innerHTML = temp;
 
 }
+else if (msgParse.commande == "ALERTPROXIMITE")
+{
+  // on actualise les données de tous les voisins
+  // setTimeout(dateNear(),7000);
+}
 
 
 rs.innerHTML = this.readyState;
@@ -496,8 +501,8 @@ e.preventDefault();
 // Connexion utilisateur
 document.getElementsByTagName('form')[0].onsubmit = function(e) {
   var mail = document.getElementById('mailConnexion');
-  var latitude = document.getElementById('longitudeConnexion');
-  var longitude = document.getElementById('latitudeConnexion');
+  var latitude = document.getElementById('latitudeConnexion');
+  var longitude = document.getElementById('longitudeConnexion');
 
 
   // On initialise l'utilisateur
