@@ -390,14 +390,14 @@ else if (msgParse.commande == "CONNECTREP")
   var x = JSON.parse(msgParse.data);
   // On rempli les champs associés
   document.getElementById('prenom_nom').innerHTML = x.prenom + " " + x.nom;
-  document.getElementById('position_utilisateur').innerHTML = "longitude : " + x.longitude + " et latitude : " + x.latitude;
+  document.getElementById('position_utilisateur').innerHTML = " latitude : " + x.latitude + " et longitude : " + x.longitude;
 
 }
 else if (msgParse.commande == "GETMETEOJSONREP")
 {
 
   var x = JSON.parse(msgParse.data);
-  // log("===> "+JSON.parse(x.weather[0]).icon);
+  log("===> "+msgParse.data);
 
   // On rempli les champs associés
   var temp = "";
