@@ -75,7 +75,7 @@
 
   <!-- Div contenant le bouton de déconnexion -->
   <div id="zoneDeconnexion">
-    <input type="submit" value="Se déconnecter" id="validDeconnexion">
+    <input type="submit" value="Se déconnecter" id="validDeconnexion" onclick="location.href='http://localhost';" >
   </div>
 
   <div id="zonePersConnect">
@@ -224,11 +224,11 @@
 // (Pour Mozilla < 11 avec version préfixée)
 if('MozWebSocket' in window) {
 
-  ws = new MozWebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+  ws = new MozWebSocket("ws://localhost:1337/phpwebsocket/chat.php");
 
 } else if('WebSocket' in window) {
 
-  ws = new WebSocket("ws://192.168.1.22:1337/phpwebsocket/chat.php");
+  ws = new WebSocket("ws://localhost:1337/phpwebsocket/chat.php");
 
 }
 
@@ -320,8 +320,6 @@ if (msgParse.commande == "MYSPORT")
       temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
       temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[variable][v2]+"</b></div>\n";
       temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+variable+"</div>\n";
-      temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
-      temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
       temp += "</div>\n";
       temp += "</div>\n";
       mySport.innerHTML += temp;
@@ -342,8 +340,6 @@ else if (msgParse.commande == "ADDSPORT")
   temp += "<div style=\"margin: 10px; margin-top: 4px;\">\n";
   temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+newSport.date+"</b></div>\n";
   temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+newSport.nom+"</div>\n";
-  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
-  temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
   temp += "</div>\n";
   temp += "</div>\n";
   mySport.innerHTML += temp;
@@ -373,8 +369,6 @@ else if (msgParse.commande == "ALLSPORTNEARREP")
             temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\"><b>"+msgParse.data[personne].creneaux[sport][variable]+"</b></div>\n";
             temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">"+sport+"</div>\n";
             temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Par "+msgParse.data[personne].prenom+" "+msgParse.data[personne].nom+"</div>\n";
-            temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Nbre de participants actuel</div>\n";
-            temp += "<div style=\"width: 180px; overflow: hidden; font-family: tahoma; font-size: 15px; color: black\">Météo</div>\n";
             temp += "</div>\n";
             temp += "</div>\n";
             sportNear.innerHTML += temp;
