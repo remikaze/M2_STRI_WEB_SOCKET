@@ -1,7 +1,7 @@
 Localisations:
 
-Fraisse cabardes	43.325071, 2.271232
-Alzonne				43.253532, 2.177950
-Montegut Lauragais	43.478676, 1.920787
-Toulouse			43.603911, 1.448631
-Paris				48.854546, 2.353391
+Fraisse cabardes	lat : 43.325071, long 2.271232
+Alzonne				lat : 43.253532, long : 2.177950
+Montegut Lauragais	lat : 43.478676, long : 1.920787
+Toulouse			lat : 43.603911, long : 1.448631
+Paris				lat : 48.854546, long : 2.353391

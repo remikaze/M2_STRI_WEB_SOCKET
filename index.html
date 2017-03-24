@@ -51,6 +51,13 @@
             <input type="text" name="mailConnexion" id="mailConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 20px; font-family: tahoma; text-align: center;'>
           </td>
         </tr>
+          <td>
+            <label for="texte" >Latitude : </label>
+          </td>
+          <td>
+            <input type="text" name="latitudeConnexion" id="latitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 20px; font-family: tahoma; text-align: center;'>
+          </td>
+        </tr>
         <tr>
           <td>
             <label for="texte" >Longitude :  </label>
@@ -60,13 +67,6 @@
           </td>
         </tr>
         <tr>
-          <td>
-            <label for="texte" >Latitude : </label>
-          </td>
-          <td>
-            <input type="text" name="latitudeConnexion" id="latitudeConnexion" style=' background-color: #e0e0e0; border: 1px solid #ffffff; padding: 4px; border-radius: 20px; font-family: tahoma; text-align: center;'>
-          </td>
-        </tr>
       </table>
 
       <input type="submit" value="Se connecter" id="validConnexion">
@@ -353,6 +353,7 @@ else if (msgParse.commande == "ALLSPORTNEARREP")
 {
   // on met a jour la liste de mes sports
   var sportNear = document.getElementById('sportNear');
+  sportNear.innerHTML = "";
 
   // On parcourt toutes les personnes à proximité
   for (personne in msgParse.data)
